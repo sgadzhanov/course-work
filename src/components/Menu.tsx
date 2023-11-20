@@ -1,0 +1,64 @@
+'use client'
+import { useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import CartIcon from "./CartIcon"
+
+export default function Menu() {
+  const [isOpened, setIsOpened] = useState(false)
+  // TMP USER
+  const user = false
+  return (
+    <div>
+      {isOpened ? (
+        <Image
+          alt="menu_image"
+          src='/close.png'
+          width={20}
+          height={20}
+          onClick={() => setIsOpened(prev => !prev)}
+        />
+      ) : (
+        <Image
+          alt="menu_image"
+          src='/open.png'
+          width={20}
+          height={20}
+          onClick={() => setIsOpened(prev => !prev)}
+        />
+      )}
+      {isOpened &&
+        <div className="bg-red-500 text-white absolute left-0 top-24 h-[calc(100vh-6rem)] w-full z-10 flex flex-col gap-8 items-center justify-center text-3xl">
+          {links.map(link =>
+            <Link
+              key={link.id}
+              href={link.url}
+              onClick={() => setIsOpened(false)}
+            >
+              {link.title}
+            </Link>
+          )}
+          {!user ? (
+            <Link href='/login' onClick={() => setIsOpened(false)}>
+              Login
+            </Link>
+          ) : (
+            <Link href='orders' onClick={() => setIsOpened(false)}>
+              Orders
+            </Link>
+          )}
+          <Link href='/cart' onClick={() => setIsOpened(false)}>
+            <CartIcon />
+          </Link>
+        </div>
+      }
+    </div>
+  )
+}
+
+const links = [
+  { id: 1, title: 'Homepage', url: '/' },
+  { id: 2, title: 'Menu', url: '/menu' },
+  { id: 3, title: 'Working Hours', url: '/' },
+  { id: 4, title: 'Contact', url: '/' },
+]
