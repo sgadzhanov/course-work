@@ -6,7 +6,6 @@ type MenuItemProps = {
   desc?: string
   img?: string
   color: string
-  bgColor: string
 }
 
 export default function MenuItem({
@@ -15,11 +14,10 @@ export default function MenuItem({
   desc,
   img,
   color,
-  bgColor,
 }: MenuItemProps) {
   return (
     <Link
-      className={`bg-${bgColor}-700 bg-cover h-1/3 p-6 w-[90%] md:w-full md:h-1/2`}
+      className={`bg-red-700 bg-cover h-1/3 p-6 w-[90%] md:w-full md:h-1/2`}
       style={{ backgroundImage: `url(${img})` }}
       href={`/menu/${slug}`}
     >

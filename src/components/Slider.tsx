@@ -43,7 +43,7 @@ export default function Slider() {
   )
 }
 const data = [
-  { id: 1, title: 'always fresh & crispy & hot!', image: '/slide1.png' },
-  { id: 2, title: 'we deliver your order wherever you are in NY!', image: '/slide2.png' },
+  { id: 1, title: 'always fresh & crispy!', image: '/slide1.png' },
+  { id: 2, title: 'we deliver your order wherever you are in sofia!', image: '/slide2.png' },
   { id: 3, title: 'the best pizza to share with your family!', image: '/slide3.jpg' },
 ]

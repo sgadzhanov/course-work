@@ -38,7 +38,7 @@ export default function Menu() {
               {link.title}
             </Link>
           )}
-          {!user ? (
+          {/* {!user ? (
             <Link href='/login' onClick={() => setIsOpened(false)}>
               Login
             </Link>
@@ -46,7 +46,7 @@ export default function Menu() {
             <Link href='orders' onClick={() => setIsOpened(false)}>
               Orders
             </Link>
-          )}
+          )} */}
           <Link href='/cart' onClick={() => setIsOpened(false)}>
             <CartIcon />
           </Link>

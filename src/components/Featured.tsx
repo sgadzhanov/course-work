@@ -1,11 +1,18 @@
-import { featuredProducts } from '../data'
+import { Product } from '@/types/types'
 import FeaturedProduct from "./FeaturedProduct"
 
-export default function Featured() {
+async function getFeaturedProducts() {
+  const res = await fetch('http://localhost:3000/api/products')
+  return res.json()
+}
+
+export default async function Featured() {
+  const products = await getFeaturedProducts()
+
   return (
     <div className="w-screen overflow-x-scroll scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-200 text-red-500">
       <div className="w-max flex">
-        {featuredProducts.map(product => (
+        {products.map((product: Product) => (
           <FeaturedProduct
             key={product.id}
             img={product.img}
