@@ -1,16 +1,16 @@
 'use client'
-import { ReactElement, ReactHTML, useState } from 'react';
-import { useSession } from 'next-auth/react'
-import { signIn } from 'next-auth/react'
+import { useEffect, useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import Link from 'next/link';
+import { useUserStore } from '../store/store';
 
 const backgroundImageStyle = {
   backgroundImage: 'url("https://cdn.pixabay.com/photo/2021/05/23/16/23/pizza-background-6276659_1280.jpg")',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  minHeight: 'calc(100vh - 10rem)', // Ensures the background covers the entire viewport height
+  minHeight: 'calc(100vh - 8rem)', // Ensures the background covers the entire viewport height
   display: 'flex',
   justifyContent: 'center',
   // alignItems: 'center',
@@ -25,11 +25,14 @@ export default function LoginPage() {
   const [userCredentials, setUserCredentials] = useState(initialUserCredentials)
   const [clientValidations, setClientValidations] = useState(false)
   const [serverValidations, setServerValidations] = useState('')
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
 
   const { data, status } = useSession()
   const router = useRouter()
+  const { login } = useUserStore()
 
-  console.log({ data })
+  useEffect(() => console.log({ isLoggingIn }), [isLoggingIn])
+
   if (status === 'loading') {
     return <p className='text-center text-xl mt-4'>Loading...</p>
   }
@@ -48,28 +51,31 @@ export default function LoginPage() {
       setClientValidations(true)
       return
     }
+    try {
+      setIsLoggingIn(true)
+      const res = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userCredentials)
+      })
+      const answer = await res.json()
 
-    const res = await fetch('http://localhost:3000/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userCredentials)
-    })
-    const answer = await res.json()
+      if (res.status === 401) {
+        setServerValidations(answer.message)
+        return
+      }
 
-    if (res.status === 401) {
-      setServerValidations(answer.message)
-      return
-    }
-    if (!res.ok) {
+      login(username, password)
+      window.localStorage.setItem('user', JSON.stringify({ username }))
+      setIsLoggingIn(false)
+      router.push('/')
+    } catch (e) {
       setServerValidations('There was an error logging in. Please try again later.')
-      return
+      setIsLoggingIn(false)
+      console.log(e);
     }
-    console.log(answer)
-
-    window.localStorage.setItem('user', JSON.stringify({ username, jwt: 'dummy jwt' }))
-    router.push('/')
   }
 
   return (
@@ -79,7 +85,7 @@ export default function LoginPage() {
           <form onSubmit={submitHandler} className='flex flex-col'>
             <h2 className='font-bold text-2xl text-slate-800 text-center pb-4'>Login</h2>
 
-            <label className='font-semibold text-slate-800' htmlFor="username">Username</label>
+            <label className='font-semibold text-slate-800' htmlFor="username">Email</label>
             <input
               className='ring-1 ring-orange-200 overflow-hidden outline-none py-[.75rem] px-2 rounded bg-[#f0ffffb0] mb-2'
               type="text"
@@ -96,7 +102,7 @@ export default function LoginPage() {
 
             <label className='font-semibold text-slate-800' htmlFor="username">Password</label>
             <input
-              className='ring-1 ring-orange-200 overflow-hidden outline-none py-[.75rem] px-2 rounded bg-[#f0ffffb0] mb-2'
+              className='ring-1 ring-orange-200 overflow-hidden outline-none py-[.75rem] px-2 rounded mb-2 bg-[#f0ffffb0]'
               type="password"
               name='password'
               value={userCredentials.password}
@@ -111,7 +117,7 @@ export default function LoginPage() {
 
             {serverValidations && <p className='text-red-600 font-semibold mb-2'>{serverValidations}</p>}
             {clientValidations && <p className='text-red-600 font-semibold mb-2'>Please enter valid username and password.</p>}
-            <button className={`bg-[#e34444c7] p-[.75rem] rounded-md text-slate-50 opacity-100 font-semibold w-[80%] mx-auto transition-all hover:bg-[#f155b0bd] duration-300 ${!clientValidations ? 'cursor-pointer' : 'cursor-not-allowed hover:bg-slate-400'}`} disabled={clientValidations}>Login</button>
+            <button className={`bg-[#e34444c7] p-[.75rem] rounded-md text-slate-50 opacity-100 font-semibold w-[80%] mx-auto transition-all hover:bg-[#f155b0bd] duration-300 ${!clientValidations ? 'cursor-pointer' : 'cursor-not-allowed hover:bg-slate-400'}`} disabled={clientValidations}>{!isLoggingIn ? 'Login' : 'Please wait...'}</button>
           </form>
           <p className='text-sm pt-2 text-center font-semibold'>Don&apos;t have an account? <Link href='/register' className='text-blue-600 underline'>Signup</Link></p>
           <div className="flex items-center justify-center my-4">
@@ -120,7 +126,7 @@ export default function LoginPage() {
             <div className='relative h-[1px] w-full bg-[#b87575]' />
           </div>
           <button
-            className="flex justify-center gap-6 p-4 ring-1 ring-slate-300 rounded-md opacity-80 bg-[azure] w-[80%] mx-auto transition-all hover:bg-orange-100 duration-300"
+            className="flex justify-center gap-6 p-4 ring-1 ring-slate-300 rounded-md opacity-80 bg-[azure] w-[80%] mx-auto transition-all hover:bg-indigo-100 duration-300"
             onClick={() => signIn('google')}
           >
             <Image

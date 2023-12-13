@@ -46,3 +46,18 @@ export type ActionTypes = {
   addToCart: (item: CartItem) => void
   removeFromCart: (item: CartItem) => void
 }
+
+export type User = {
+  email: string
+  isAdmin: boolean
+}
+
+type UserActionTypes = {
+  login: (email: string, password: string) => void
+  logout: () => void
+}
+
+export type UserStore = User & {
+  login: (email: string, password: string) => void;
+  logout: () => void;
+};

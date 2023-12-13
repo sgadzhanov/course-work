@@ -4,7 +4,7 @@ import Menu from "./Menu"
 import CartIcon from "./CartIcon"
 import UserState from "./UserState"
 
-export default async function Navbar() {
+export default function Navbar() {
   return (
     <nav className="h-12 text-red-500 p-4 xl:px-40 lg:px-20  flex justify-between items-center border-b-2 border-b-red-500 uppercase md:h-20 bg-fuchsia-50">
       {/* LEFT LINKS */}

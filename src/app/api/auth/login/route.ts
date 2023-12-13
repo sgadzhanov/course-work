@@ -4,12 +4,13 @@ import * as bcrypt from 'bcryptjs'
 
 export async function POST(req: NextRequest) {
   const { username, password } = await req.json()
-  
+
   const user = await prisma.user.findFirst({
     where: {
-      name: username,
+      email: username,
     }
   })
+
   if (!user) {
     return new NextResponse(JSON.stringify({ message: 'Wrong username or password!' }), { status: 401 })
   }
@@ -19,5 +20,5 @@ export async function POST(req: NextRequest) {
     return new NextResponse(JSON.stringify({ message: 'Wrong username or password!' }), { status: 401 })
   }
 
-  return new NextResponse(JSON.stringify({...user, test: 'test'}), { status: 201 })
+  return new NextResponse(JSON.stringify({ ...user, test: 'test' }), { status: 201 })
 }

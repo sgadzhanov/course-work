@@ -1,25 +1,30 @@
 'use client'
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useUserStore } from "@/app/store/store"
+import { useRouter } from 'next/navigation';
 
 export default function UserState() {
-  const { data, status } = useSession()
-  // console.log({data, status})
+  const { status } = useSession()
+  const { logout } = useUserStore()
+  const router = useRouter()
   
-  // import { RotatingLines } from 'react-loader-spinner'
-  // if (status === 'loading') {
-  //   return <RotatingLines strokeColor='red' strokeWidth='3' animationDuration='.75' width='36' visible={true} />
-  // }
+  const localStorageUser = localStorage.getItem('user')
 
+  const onLogout = () => {
+    logout()
+    localStorage.removeItem('user')
+    router.push('/')
+  }
   return (
     <section>
-      {status === 'authenticated' ? (
+      {status === 'authenticated' || localStorageUser ? (
         <div>
           <Link className={linkStyles} href='/orders'>Orders</Link>
           <span
             className='ml-4 cursor-pointer hover:text-amber-500 transition-all duration-400 md:font-semibold'
             onClick={() => {
-              signOut()
+              status === 'authenticated' ? signOut() : onLogout()
               window.localStorage.removeItem('user')
             }}
           >
@@ -30,7 +35,6 @@ export default function UserState() {
         <Link
           className={linkStyles}
           href='/login'
-          // href='/api/auth/signin'
         >
           Login
         </Link>

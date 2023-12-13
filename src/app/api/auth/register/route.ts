@@ -3,7 +3,7 @@ import { prisma } from "@/utils/prismaClient";
 import * as bcrypt from 'bcryptjs'
 
 export async function POST(req: NextRequest) {
-  const { username, password: userPassword, confirmPassword } = await req.json()
+  const { email, password: userPassword, confirmPassword } = await req.json()
 
   if (userPassword !== confirmPassword) {
     return new NextResponse(JSON.stringify({ message: 'Passwords not matched.' }), { status: 400 })
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
   const res = await prisma.user.create({
     data: {
-      name: username,
+      email,
       password: hashedPassword,
       isAdmin: false,
     },

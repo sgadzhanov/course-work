@@ -1,33 +1,75 @@
 'use client'
 import { useState } from "react";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
+import Confetti from 'react-confetti'
+
+const backgroundImageStyle = {
+  backgroundImage: 'url("https://cdn.pixabay.com/photo/2021/05/23/16/23/pizza-background-6276659_1280.jpg")',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  minHeight: 'calc(100vh - 8rem)', // Ensures the background covers the entire viewport height
+  display: 'flex',
+  justifyContent: 'center',
+}
 
 const initialUserCredentials = {
-  username: '',
+  email: '',
   password: '',
   confirmPassword: '',
 }
 
 const initialInputFocus = {
-  username: '',
+  email: '',
   password: '',
   confirmPassword: '',
 }
 
+const initialErrorMessages = {
+  emailValidation: '',
+  passwordValidation: '',
+}
+
 export default function Register() {
+  const router = useRouter()
+
   const [userCredentials, setUserCredentials] = useState(initialUserCredentials)
   const [inputFocus, setInputFocus] = useState(initialInputFocus)
   const [isLoading, setIsLoading] = useState(false)
+  const [valdationMessages, setValidationMessages] = useState(initialErrorMessages)
+  const [confetti, setConfetti] = useState(false)
 
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => setUserCredentials(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValidationMessages(initialErrorMessages)
+    setUserCredentials(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }))
+  }
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setUserCredentials({
-      username: '',
-      password: '',
-      confirmPassword: '',
-    })
+
+    if (!/(.+)@(.+){2,}\.(.+){2,}/.test(userCredentials.email)) {
+      setValidationMessages(prev => ({
+        ...prev,
+        emailValidation: 'Please enter valid email.'
+      }))
+      return
+    }
+
+    if (
+      userCredentials.password.length < 5 ||
+      userCredentials.confirmPassword.length < 5 ||
+      userCredentials.password !== userCredentials.confirmPassword
+    ) {
+      setValidationMessages(prev => ({
+        ...prev,
+        passwordValidation: 'Your passwords must match and must be at least 5 characters long.'
+      }))
+      return
+    }
+
+    setUserCredentials(initialUserCredentials)
     setIsLoading(true)
     try {
       const res = await fetch('http://localhost:3000/api/auth/register', {
@@ -40,8 +82,11 @@ export default function Register() {
       if (!res.ok) {
         console.log('There was an error registering user')
       }
-      console.log('res:', await res.json())
-      console.log({ userCredentials })
+      setConfetti(true)
+      setTimeout(() => {
+        setConfetti(false)
+        router.push('/')
+      }, 3000)
     } catch (e) {
       console.log(e)
     } finally {
@@ -53,34 +98,29 @@ export default function Register() {
   const blurHandler = (input: string) => setInputFocus(prev => ({ ...prev, [input]: false }))
 
   return (
-    <div className="h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex items-center justify-center min-w-[16rem]">
-      {/* BOX */}
-      <div className=" h-full shadow-2xl rounded-md flex flex-col md:flex-row md:h-[70%] md:w-full lg:w-[60%] 2xl:w-1/2">
-        {/* IMAGE CONTAINER */}
-        <div className="relative h-1/3 w-full md:h-full md:w-1/2">
-          <Image src="/loginBg.png" alt="" fill className="object-cover rounded-t-md" />
-        </div>
-        {/* FORM CONTAINER */}
-        <div className="px-8 py-4 flex flex-col gap-4 md:w-1/2">
-          <h1 className="font-bold text-xl xl:text-3xl">Register</h1>
-          <p className="text-sm font-semibold">
-            Please take a moment to fill in the details below and unlock a world of deliciousness. Your culinary adventure starts here. Bon appétit!
-          </p>
+    <div style={backgroundImageStyle} className='h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)]'>
+      {confetti ? <Confetti width={window.innerWidth} height={window.innerHeight} /> : null}
+      <div className="w-[85%] md:w-1/2 lg:w-[40%] xl:w-1/3 mt-10">
+        <div className='bg-[#e9e9e9d9] p-4 rounded-lg'>
+          <h2 className="text-center text-2xl font-bold">Register</h2>
+          {/* <div className="bg-slate-200 p-4 rounded-lg opacity-80 my-4"> */}
+            <p className="p-6 font-semibold text-[1.15rem] ">🍔🥗 Create an account to enjoy a seamless culinary experience.📱🍕</p>
+          {/* </div> */}
           <form onSubmit={submitHandler} className="flex flex-col">
-            <label className="text-slate-800 font-semibold text-sm" htmlFor="username">Username</label>
+            <label className="font-semibold text-slate-800" htmlFor="email">Email</label>
             <input
-              className={(inputFocus.username ? 'bg-orange-200' : 'bg-slate-300') + ' overflow-hidden mb-2 outline-none rounded p-2'}
+              className={(inputFocus.email ? 'bg-fuchsia-50' : 'bg-[#f0ffffb0]') + ' ring-1 ring-orange-200 overflow-hidden outline-none py-[.75rem] px-2 rounded mb-4'}
               type="text"
-              id='username'
-              name='username'
+              id='email'
+              name='email'
               onChange={changeHandler}
-              value={userCredentials.username}
+              value={userCredentials.email}
               onFocus={(e) => focusHandler(e.target.name)}
               onBlur={(e) => blurHandler(e.target.name)}
             />
-            <label className="text-slate-800 font-semibold text-sm" htmlFor="password">Password</label>
+            <label className="font-semibold text-slate-800" htmlFor="password">Password</label>
             <input
-              className={(inputFocus.password ? 'bg-orange-200' : 'bg-slate-300') + ' overflow-hidden mb-2 outline-none rounded p-2'}
+              className={(inputFocus.password ? 'bg-fuchsia-50' : 'bg-[#f0ffffb0]') + ' ring-1 ring-orange-200 overflow-hidden outline-none py-[.75rem] px-2 rounded mb-4'}
               type="password"
               id='password'
               name='password'
@@ -89,9 +129,9 @@ export default function Register() {
               onFocus={(e) => focusHandler(e.target.name)}
               onBlur={(e) => blurHandler(e.target.name)}
             />
-            <label className="text-slate-800 font-semibold text-sm" htmlFor="confirmPassword">Confirm Password</label>
+            <label className="font-semibold text-slate-800" htmlFor="confirmPassword">Confirm Password</label>
             <input
-              className={(inputFocus.confirmPassword ? 'bg-orange-200' : 'bg-slate-300') + ' overflow-hidden mb-2 outline-none rounded p-2'}
+              className={(inputFocus.confirmPassword ? 'bg-fuchsia-50' : 'bg-[#f0ffffb0]') + ' ring-1 ring-orange-200 overflow-hidden outline-none py-[.75rem] px-2 rounded mb-4'}
               type="password"
               id='confirmPassword'
               name='confirmPassword'
@@ -100,7 +140,9 @@ export default function Register() {
               onFocus={(e) => focusHandler(e.target.name)}
               onBlur={(e) => blurHandler(e.target.name)}
             />
-            <button className="bg-red-500 font-semibold text-slate-100 p-2 rounded-lg hover:bg-red-700 transition-all duration-300" disabled={isLoading}>
+            {valdationMessages.emailValidation && <p className="mb-2 text-red-700 font-semibold">{valdationMessages.emailValidation}</p>}
+            {valdationMessages.passwordValidation && <p className="mb-2 text-red-700 font-semibold">{valdationMessages.passwordValidation}</p>}
+            <button disabled={confetti || isLoading} className="bg-[#e34444c7] p-[.75rem] rounded-md text-slate-50 opacity-100 font-semibold w-[80%] mx-auto transition-all hover:bg-[#ff1b1bc7] duration-300 ">
               {isLoading ? 'Please wait...' : 'Submit'}
             </button>
           </form>
