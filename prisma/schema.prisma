@@ -45,6 +45,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   Order         Order[]
+  Rating        Rating[]
 }
 
 model VerificationToken {
@@ -77,6 +78,18 @@ model Product {
   options    Json[]
   category   Category @relation(fields: [catSlug], references: [slug])
   catSlug    String
+  ratings    Rating[]
+}
+
+model Rating {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  rating    Int
+  comment   String?
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String
 }
 
 model Order {

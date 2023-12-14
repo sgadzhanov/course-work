@@ -1,6 +1,7 @@
 import Price from "@/components/Price"
 import Image from "next/image"
 import { Product } from "@/types/types"
+import Rating from "@/components/Rating"
 
 type ProductDetailsParams = {
   params: {
@@ -10,8 +11,7 @@ type ProductDetailsParams = {
 }
 
 async function getProduct(slug: string) {
-  console.log('slug sent to the api:', slug)
-  const res = await fetch('http://localhost:3000/api/menu/' + slug)
+  const res = await fetch('http://localhost:3000/api/menu/' + slug, { cache: "no-store" })
   if (!res.ok) {
     throw new Error('Failed!')
   }
@@ -37,6 +37,7 @@ export default async function ProductDetails({ params }: ProductDetailsParams) {
       <div className="h-1/2 flex flex-col gap-4 md:h-2/3 md:justify-center md:gap-6 lg:gap-8">
         <h1 className="text-3xl xl:text-4xl font-extrabold uppercase">{item?.title}</h1>
         <p className="font-semibold">{item?.desc}</p>
+        <Rating item={item} />
         {item && <Price product={item} />}
       </div>
     </div>

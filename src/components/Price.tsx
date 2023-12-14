@@ -10,7 +10,7 @@ type PriceProps = {
   product: Product
 }
 
-export default function Price({ product }: { product: Product }) {
+export default function Price({ product }: PriceProps) {
   const { price, options } = product
   const { addToCart } = useCartStore()
   const { status } = useSession()

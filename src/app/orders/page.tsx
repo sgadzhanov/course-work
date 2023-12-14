@@ -1,11 +1,10 @@
 'use client'
 import { Order } from '@/types/types'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
-import { useUserStore } from '../store/store'
 
 const backgroundImageStyle = {
   backgroundImage: 'url("https://marketplace.canva.com/EAFA7Zl1wfs/1/0/1600w/canva-pastel-red-green-illustrative-element-centric-video-background-Rs7EVOqIM2c.jpg")',
@@ -21,7 +20,6 @@ export default function OrdersPage() {
   const { data: sessionData, status } = useSession()
   const router = useRouter()
   const queryClient = useQueryClient()
-  const { email } = useUserStore()
 
   const userItem = localStorage.getItem('user')
   const userEmail = userItem ? JSON.parse(userItem) : null
@@ -90,11 +88,14 @@ export default function OrdersPage() {
           </thead>
           <tbody>
             {data?.length > 0 && data?.map((order: Order) => (
-              <tr key={order.id} className={`text-sm md:text-base ${order.status.toLowerCase() === 'delivered' ? 'bg-green-100' : 'bg-fuchsia-50'}`}>
-                <td className="hidden md:block py-6 px-1">{order.id}</td>
-                <td className="py-6 px-1">{order.createdAt.toString().slice(0, 10)}</td>
-                <td className="py-6 px-1">${Number(order.price).toFixed(2)}</td>
-                <td className="hidden md:block py-6 px-1">{order.products.map(p => p.title)}</td>
+              <tr
+                key={order.id}
+                className={`text-sm md:text-base ${order.status.toLowerCase() === 'delivered' ? 'bg-green-100' : 'bg-fuchsia-50'}`}
+              >
+                <td className="hidden md:block py-4 px-1">{order.id}</td>
+                <td className="py-4 px-1">{order.createdAt.toString().slice(0, 10)}</td>
+                <td className="py-4 px-1">${Number(order.price).toFixed(2)}</td>
+                <td className="hidden md:block py-4 px-1">{order.products.map(p => p.title)}</td>
                 {sessionData?.user.isAdmin ?
                   <td>
                     <form
@@ -115,7 +116,7 @@ export default function OrdersPage() {
                       </button>
                     </form>
                   </td> :
-                  <td className="py-6 px-1">
+                  <td className="py-4 px-1">
                     {order.status}
                   </td>
                 }

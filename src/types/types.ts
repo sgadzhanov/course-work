@@ -15,6 +15,15 @@ export type Product = {
   img?: string
   price: number
   options?: { title: string, additionalPrice: number }[]
+  ratings: Rating[]
+}
+
+export type Rating = {
+  id: string
+  createdAt: string
+  rating: number
+  comment?: string
+  user?: User
 }
 
 export type Order = {

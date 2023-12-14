@@ -10,8 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
-
+const inter = Inter({ weight: '400', subsets: ['latin']  })
 export const metadata: Metadata = {
   title: 'Food Delivery App',
   description: 'Best in the town! (:',
