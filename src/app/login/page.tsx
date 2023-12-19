@@ -31,7 +31,9 @@ export default function LoginPage() {
   const router = useRouter()
   const { login } = useUserStore()
 
-  useEffect(() => console.log({ isLoggingIn }), [isLoggingIn])
+  useEffect(() => {
+    useUserStore.persist.rehydrate()
+  }, [])
 
   if (status === 'loading') {
     return <p className='text-center text-xl mt-4'>Loading...</p>
@@ -68,7 +70,7 @@ export default function LoginPage() {
       }
 
       login(username, password)
-      window.localStorage.setItem('user', JSON.stringify({ username }))
+      // window.localStorage.setItem('user', JSON.stringify({ username }))
       setIsLoggingIn(false)
       router.push('/')
     } catch (e) {

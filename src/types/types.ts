@@ -67,6 +67,11 @@ type UserActionTypes = {
 }
 
 export type UserStore = User & {
-  login: (email: string, password: string) => void;
-  logout: () => void;
-};
+  login: (email: string, password: string) => void
+  logout: () => void
+  onLogout: () => void
+}
+
+export interface ExtendedCartType extends CartType, ActionTypes {
+  resetCart: () => void
+}

@@ -1,7 +1,7 @@
-import { create } from "zustand"
-import { CartType, ActionTypes, UserStore, User, } from "@/types/types"
-import { persist } from "zustand/middleware"
+import { ExtendedCartType, User, UserStore } from "@/types/types"
 import _ from "lodash"
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
 const INITIAL_CART_STATE = {
   products: [],
@@ -16,25 +16,7 @@ const INITIAL_USER_STATE = {
   },
 }
 
-export const useUserStore = create(persist<UserStore>((set) => ({
-  ...INITIAL_USER_STATE.user,
-  login(email, password) {
-    if (email.length >= 5 && password.length >= 5) {
-      const loggedInUser: User = {
-        email,
-        isAdmin: false,
-      }
-      set((state) => ({ ...state, ...loggedInUser }))
-    } else {
-      console.log("LOGIN FAILED!")
-    }
-  },
-  logout() {
-    set(INITIAL_USER_STATE.user)
-  },
-}), { name: 'tmp', skipHydration: true }))
-
-export const useCartStore = create(persist<CartType & ActionTypes>((set, get) => ({
+export const useCartStore = create(persist<ExtendedCartType>((set, get) => ({
   products: INITIAL_CART_STATE.products,
   totalItems: INITIAL_CART_STATE.totalItems,
   totalPrice: INITIAL_CART_STATE.totalPrice,
@@ -83,4 +65,33 @@ export const useCartStore = create(persist<CartType & ActionTypes>((set, get) =>
       }))
     }
   },
+  resetCart() {
+    set({
+      products: INITIAL_CART_STATE.products,
+      totalItems: INITIAL_CART_STATE.totalItems,
+      totalPrice: INITIAL_CART_STATE.totalPrice,
+    })
+  }
 }), { name: 'cart', skipHydration: true, }))
+
+export const useUserStore = create(persist<UserStore>((set, get) => ({
+  ...INITIAL_USER_STATE.user,
+  login(email, password) {
+    if (email.length >= 5 && password.length >= 5) {
+      const loggedInUser: User = {
+        email,
+        isAdmin: false,
+      }
+      set((state) => ({ ...state, ...loggedInUser }))
+    } else {
+      console.log("LOGIN FAILED!")
+    }
+  },
+  logout() {
+    get().onLogout()
+    set(INITIAL_USER_STATE.user)
+  },
+  onLogout() {
+    useCartStore.getState().resetCart()
+  }
+}), { name: 'user', skipHydration: true }))

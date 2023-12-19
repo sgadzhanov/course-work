@@ -4,7 +4,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { toast } from 'react-toastify'
+import { useUserStore } from '../store/store'
 
 const backgroundImageStyle = {
   backgroundImage: 'url("https://marketplace.canva.com/EAFA7Zl1wfs/1/0/1600w/canva-pastel-red-green-illustrative-element-centric-video-background-Rs7EVOqIM2c.jpg")',
@@ -16,18 +18,21 @@ const backgroundImageStyle = {
 }
 
 
-export default function OrdersPage() {
+export default function Orders() {
   const { data: sessionData, status } = useSession()
+  const { email: userEmail } = useUserStore()
   const router = useRouter()
   const queryClient = useQueryClient()
 
-  const userItem = localStorage.getItem('user')
-  const userEmail = userItem ? JSON.parse(userItem) : null
-  if (status === 'unauthenticated' && !userEmail?.username) {
+  if (status === 'unauthenticated' && !userEmail) {
     router.push('/')
   }
 
-  const currentEmail = sessionData ? sessionData?.user.email : userEmail?.username
+  useEffect(() => {
+    useUserStore.persist.rehydrate()
+  }, [])
+
+  const currentEmail = sessionData ? sessionData?.user.email : userEmail
 
   const { isLoading, error, data } = useQuery({
     queryKey: ['orders'],

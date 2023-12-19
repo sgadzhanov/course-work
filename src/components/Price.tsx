@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { CartItem, Product } from '@/types/types'
-import { useCartStore } from '@/app/store/store'
+import { useCartStore, useUserStore } from '@/app/store/store'
 import { toast } from 'react-toastify'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
@@ -14,17 +14,18 @@ export default function Price({ product }: PriceProps) {
   const { price, options } = product
   const { addToCart } = useCartStore()
   const { status } = useSession()
+  const { email: userEmail } = useUserStore()
   const router = useRouter()
 
   const [quantity, setQuantity] = useState(1)
   const [size, setSize] = useState('small')
   const [currentPrice, setCurrentPrice] = useState(price)
 
-  const localStorageUser = localStorage.getItem('user')
-  const isAuthenticated = status === 'authenticated' || localStorageUser
+  const isAuthenticated = status === 'authenticated' || userEmail
 
   useEffect(() => {
     useCartStore.persist.rehydrate()
+    useUserStore.persist.rehydrate()
   }, [])
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export default function Price({ product }: PriceProps) {
 
   const onAddProduct = () => {
     if (!isAuthenticated) {
-      console.log('PLEASE LOG IN!')
+      alert('Please log in.')
       return
     }
     const productToAdd: CartItem = {

@@ -6,7 +6,7 @@ import UserState from "./UserState"
 
 export default function Navbar() {
   return (
-    <nav className="h-12 text-red-500 p-4 xl:px-40 lg:px-20  flex justify-between items-center border-b-2 border-b-red-500 uppercase md:h-20 bg-fuchsia-50">
+    <nav className="h-16 text-red-500 py-2 md:py-0 p-4 md:px-4 xl:px-40 lg:px-20  flex justify-between items-center border-b-2 border-b-red-500 uppercase bg-fuchsia-50">
       {/* LEFT LINKS */}
       <div className="hidden md:flex gap-4 flex-1">
         <Link
@@ -29,9 +29,14 @@ export default function Navbar() {
         </Link>
       </div>
       {/* LOGO */}
-      <div className="text-xl md:font-semibold flex-1 md:text-center">
+      <div className="text-xl md:font-semibold md:flex md:justify-center flex-1 md:text-center">
         <Link href='/'>
-          SG
+          <Image
+            src='/logo2.png'
+            alt='logo'
+            width={90}
+            height={90}
+          />
         </Link>
       </div>
       {/* MOBILE MENU */}

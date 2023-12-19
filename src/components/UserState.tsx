@@ -1,31 +1,32 @@
 'use client'
+import { useUserStore } from "@/app/store/store";
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useUserStore } from "@/app/store/store"
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function UserState() {
   const { status } = useSession()
-  const { logout } = useUserStore()
+  const { email: userEmail, logout } = useUserStore()
   const router = useRouter()
-  
-  const localStorageUser = localStorage.getItem('user')
+
+  useEffect(() => {
+    useUserStore.persist.rehydrate()
+  }, [])
 
   const onLogout = () => {
     logout()
-    localStorage.removeItem('user')
     router.push('/')
   }
   return (
     <section>
-      {status === 'authenticated' || localStorageUser ? (
+      {status === 'authenticated' || userEmail ? (
         <div>
           <Link className={linkStyles} href='/orders'>Orders</Link>
           <span
             className='ml-4 cursor-pointer hover:text-amber-500 transition-all duration-400 md:font-semibold'
             onClick={() => {
               status === 'authenticated' ? signOut() : onLogout()
-              window.localStorage.removeItem('user')
             }}
           >
             Logout

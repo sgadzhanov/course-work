@@ -1,7 +1,8 @@
 'use client'
-import { Product } from '@/types/types'
+import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { useState } from 'react'
+import { useUserStore } from '@/app/store/store'
+import { Product } from '@/types/types'
 import { MdClose } from 'react-icons/md'
 import { RiStarFill, RiStarHalfFill, RiStarLine } from 'react-icons/ri'
 import ReactModal from 'react-modal'
@@ -14,6 +15,7 @@ type RatingProps = {
 
 export default function Rating({ item }: RatingProps) {
   const { data, status } = useSession()
+  const { email: currentUserEmail } = useUserStore()
 
   const [openModal, setOpenModal] = useState(false)
   const [isAddingReview, setIsAddingReview] = useState(false)
@@ -21,8 +23,9 @@ export default function Rating({ item }: RatingProps) {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  const localStorageUserString = localStorage.getItem('user');
-  const localStorageUser = localStorageUserString ? JSON.parse(localStorageUserString) : null;
+  useEffect(() => {
+    useUserStore.persist.rehydrate()
+  }, [])
 
   const calculateAverageRating = () => {
     const ratings = item.ratings || []
@@ -33,9 +36,7 @@ export default function Rating({ item }: RatingProps) {
     return average
   }
 
-  const userEmail = localStorageUser && 'username' in localStorageUser
-    ? localStorageUser.username
-    : (data?.user.email || '');
+  const userEmail = data?.user.email ? data.user.email : currentUserEmail
 
   const userHasReviewed = item.ratings.some(r => r.user?.email === userEmail)
 
@@ -159,7 +160,7 @@ export default function Rating({ item }: RatingProps) {
                   </div>
                 ))}
               </section>
-              {(status === 'authenticated' || localStorageUser) && !userHasReviewed && (
+              {(status === 'authenticated' || currentUserEmail) && !userHasReviewed && (
                 <button
                   onClick={() => setIsAddingReview(true)}
                   className='flex mx-auto mt-4 text-zinc-100 py-2 rounded items-center justify-center w-full md:w-1/2 bg-slate-500 font-semibold transition-all duration-300 hover:bg-slate-600'
