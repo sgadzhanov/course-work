@@ -1,4 +1,5 @@
 'use client'
+import { useEffect } from 'react';
 import Image from "next/image";
 import { useCartStore } from "../store/store";
 
@@ -14,6 +15,10 @@ const backgroundImageStyle = {
 
 export default function CartPage() {
   const { products, removeFromCart, totalItems, totalPrice } = useCartStore()
+
+  useEffect(() => {
+    useCartStore.persist.rehydrate()
+  }, [])
 
   if (products.length === 0) {
     return (
@@ -39,9 +44,9 @@ export default function CartPage() {
                 height={100}
               />
             }
-            <div>
+            <div className='flex flex-col'>
               <h1 className="uppercase text-xl font-bold">{p.title}</h1>
-              <span>{p.optionTitle}</span>
+              <span className='text-right text-sm font-semibold'>{p.optionTitle}{' x' + p.quantity + ' '}</span>
             </div>
             <h2 className="font-bold">${p.price.toFixed(2)}</h2>
             <span

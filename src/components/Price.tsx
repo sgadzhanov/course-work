@@ -24,6 +24,10 @@ export default function Price({ product }: PriceProps) {
   const isAuthenticated = status === 'authenticated' || localStorageUser
 
   useEffect(() => {
+    useCartStore.persist.rehydrate()
+  }, [])
+
+  useEffect(() => {
     let additionalPrice = 0
     if (size !== 'small') {
       additionalPrice = options?.find(o => o.title === size)?.additionalPrice ?? 0
