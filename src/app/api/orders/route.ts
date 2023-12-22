@@ -27,3 +27,18 @@ export async function GET(req: NextRequest) {
     return new NextResponse(JSON.stringify({ message: 'Not authenticated' }), { status: 401 })
   }
 }
+
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json()
+    const newOrder = await prisma.order.create({
+      data: body,
+    })
+    return new NextResponse(JSON.stringify(newOrder.id), { status: 201 })
+  } catch (e) {
+    console.log(e)
+    return new NextResponse(JSON.stringify({
+      message: 'Something went wrong...',
+    }), { status: 500 })
+  }
+}

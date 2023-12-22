@@ -26,7 +26,10 @@ export default function UserState() {
           <span
             className='ml-4 cursor-pointer hover:text-amber-500 transition-all duration-400 md:font-semibold'
             onClick={() => {
-              status === 'authenticated' ? signOut() : onLogout()
+              if (status === 'authenticated') {
+                signOut()
+              }
+              logout()
             }}
           >
             Logout

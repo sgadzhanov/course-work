@@ -1,5 +1,5 @@
 'use client'
-import { Order } from '@/types/types'
+import { CartItem, Order } from '@/types/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
@@ -9,12 +9,8 @@ import { toast } from 'react-toastify'
 import { useUserStore } from '../store/store'
 
 const backgroundImageStyle = {
-  backgroundImage: 'url("https://marketplace.canva.com/EAFA7Zl1wfs/1/0/1600w/canva-pastel-red-green-illustrative-element-centric-video-background-Rs7EVOqIM2c.jpg")',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  minHeight: 'calc(100vh - 8rem)', // Ensures the background covers the entire viewport height
-  display: 'flex',
-  justifyContent: 'center',
+  backgroundImage: 'url("https://cdn.pixabay.com/photo/2021/05/23/16/23/pizza-background-6276659_1280.jpg")',
+  minHeight: 'calc(100vh - 10rem)'
 }
 
 
@@ -72,35 +68,39 @@ export default function Orders() {
     toast.success('Order updated successfully!', { position: toast.POSITION.BOTTOM_LEFT })
   }
 
+  const formatProducts = (products: CartItem[]) => {
+    return products.map(p => p.title).join(', ')
+  }
+
   return (
-    <section className="p-4 h-[calc(100vh-11.5rem)] lg:px-20 xl:px-40">
+    <section style={backgroundImageStyle} className="p-4 h-[calc(100vh-11.5rem)] lg:px-20 xl:px-40">
       {data.length === 0 ? (
-        <section style={backgroundImageStyle}>
+        <section>
           <div className='mt-6 p-6 rounded-xl opacity-90 bg-fuchsia-100 max-h-24 items-center flex justify-center'>
             <p className='font-bold text-slate-700'>We&apos;re ready to bring you delicious food. Place your order now!</p>
           </div>
         </section>
       ) : (
-        <table className="w-full border-separate border-spacing-1">
+        <table className="w-full opacity-90 border-separate">
           <thead>
-            <tr className="text-left bg-red-50">
-              <th className="hidden md:block">Order ID</th>
-              <th>Date</th>
-              <th>Price</th>
-              <th className="hidden md:block">Products</th>
-              <th>Status</th>
+            <tr className="p-[.3rem] text-left bg-orange-200">
+              <th className="p-[.3rem] hidden md:block">Order ID</th>
+              <th className='p-[.3rem]'>Date</th>
+              <th className='p-[.3rem]'>Price</th>
+              <th className="p-[.3rem] hidden md:block">Products</th>
+              <th className='p-[.3rem]'>Status</th>
             </tr>
           </thead>
           <tbody>
             {data?.length > 0 && data?.map((order: Order) => (
               <tr
                 key={order.id}
-                className={`text-sm md:text-base ${order.status.toLowerCase() === 'delivered' ? 'bg-green-100' : 'bg-fuchsia-50'}`}
+                className={`font-semibold text-sm md:text-base ${order.status.toLowerCase() === 'delivered' ? 'bg-green-100' : 'bg-fuchsia-50'}`}
               >
                 <td className="hidden md:block py-4 px-1">{order.id}</td>
                 <td className="py-4 px-1">{order.createdAt.toString().slice(0, 10)}</td>
                 <td className="py-4 px-1">${Number(order.price).toFixed(2)}</td>
-                <td className="hidden md:block py-4 px-1">{order.products.map(p => p.title)}</td>
+                <td className="hidden md:block py-4 px-1">{formatProducts(order.products)}</td>
                 {sessionData?.user.isAdmin ?
                   <td>
                     <form
@@ -129,8 +129,7 @@ export default function Orders() {
             ))}
           </tbody>
         </table>
-      )
-      }
+      )}
     </section>
   )
 }

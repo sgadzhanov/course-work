@@ -123,6 +123,7 @@ export default function Rating({ item }: RatingProps) {
       borderRadius: '.35rem',
       opacity: 0.9,
       minWidth: '15rem',
+      border: '1px solid rgb(251 146 60)',
     },
   }
 
@@ -141,7 +142,7 @@ export default function Rating({ item }: RatingProps) {
         >
           {!isAddingReview ? (
             <>
-              <section className='flex flex-col gap-8'>
+              <section className='flex flex-col gap-4'>
                 <div className='flex justify-between items-center lg:w-2/3 lg:mx-auto'>
                   <h2 className='text-slate-800 font-bold text-lg'>{`${item.title}'s Reviews`}</h2>
                   <MdClose
@@ -151,10 +152,13 @@ export default function Rating({ item }: RatingProps) {
                   />
                 </div>
                 {item.ratings.map(r => (
-                  <div key={r.id} className='flex flex-col gap-[.5rem] bg-slate-200 py-2 px-4 rounded lg:w-2/3 lg:mx-auto'>
-                    <div className='flex flex-col md:flex-row items-start justify-start md:items-center gap-2 md:gap-4'>
-                      <p className='font-bold text-sm break-all'>{r.user?.email}</p>
-                      <p>{renderUserRating(r.rating)}</p>
+                  <div key={r.id} className={`flex flex-col gap-[.5rem] ${r.user?.email === userEmail ? 'bg-green-100' : 'bg-orange-100'} py-2 px-4 rounded lg:w-2/3 lg:mx-auto`}>
+                    <div className='flex justify-between'>
+                      <div className='flex flex-col md:flex-row items-start justify-start md:items-center gap-2 md:gap-4'>
+                        <p className='font-bold text-sm break-all'>{r.user?.email}</p>
+                        <p>{renderUserRating(r.rating)}</p>
+                      </div>
+                      <p className={`${r.user?.email === userEmail ? 'block' : 'hidden'} text-sm font-bold text-orange-800`}>Your rating</p>
                     </div>
                     <p className='text-sm'>{r.comment}</p>
                   </div>
@@ -163,12 +167,12 @@ export default function Rating({ item }: RatingProps) {
               {(status === 'authenticated' || currentUserEmail) && !userHasReviewed && (
                 <button
                   onClick={() => setIsAddingReview(true)}
-                  className='flex mx-auto mt-4 text-zinc-100 py-2 rounded items-center justify-center w-full md:w-1/2 bg-slate-500 font-semibold transition-all duration-300 hover:bg-slate-600'
+                  className='flex mx-auto mt-4 text-zinc-100 py-2 rounded items-center justify-center w-full md:w-1/2 bg-orange-400 font-semibold transition-all duration-300 hover:bg-orange-500'
                 >
                   Add Review
                 </button>
               )}
-              <button onClick={() => setOpenModal(false)} className='flex mx-auto mt-2 text-zinc-100 py-2 rounded items-center justify-center w-full md:w-1/2 bg-slate-500 font-semibold transition-all duration-300 hover:bg-slate-600'>Close</button>
+              <button onClick={() => setOpenModal(false)} className='flex mx-auto mt-2 text-zinc-100 py-2 rounded items-center justify-center w-full md:w-1/2 bg-orange-400 font-semibold transition-all duration-300 hover:bg-orange-500'>Close</button>
             </>
           ) : (
             <form onSubmit={onSubmitYourRating} className='flex flex-col gap-6'>

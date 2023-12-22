@@ -1,8 +1,10 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Image from "next/image"
 
 export default function Slider() {
+  const router = useRouter()
   const [currentSlide, setCurrentSlide] = useState(0)
 
   useEffect(() => {
@@ -12,6 +14,8 @@ export default function Slider() {
     return () => clearInterval(intervalId)
   }, [])
 
+  const isPizza = (title: string) => title.toLowerCase().includes('pizza')
+
   return (
     <div className='flex flex-col h-[calc(100vh-8rem)] lg:flex-row'>
       {/* TEXT CONTAINER */}
@@ -19,7 +23,12 @@ export default function Slider() {
         <h1 className="text-5xl text-center uppercase p-4  md:text-6xl xl:text-7xl">
           {data[currentSlide].title}
         </h1>
-        <button className='bg-red-500 text-white py-4 px-8'>Order now</button>
+        <button
+          onClick={() => router.push(isPizza(data[currentSlide].title) ? '/menu/pizzas' : '/menu')}
+          className='bg-red-500 text-white py-4 px-8'
+        >
+          {isPizza(data[currentSlide].title) ? 'Order your pizza!' : 'Order now!'}
+        </button>
       </div>
       <div className="w-full flex-1 relative">
         <Image

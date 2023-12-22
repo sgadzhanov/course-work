@@ -142,7 +142,7 @@ export default function Register() {
             />
             {valdationMessages.emailValidation && <p className="mb-2 text-red-700 font-semibold">{valdationMessages.emailValidation}</p>}
             {valdationMessages.passwordValidation && <p className="mb-2 text-red-700 font-semibold">{valdationMessages.passwordValidation}</p>}
-            <button disabled={confetti || isLoading} className="bg-[#e34444c7] p-[.75rem] rounded-md text-slate-50 opacity-100 font-semibold w-[80%] mx-auto transition-all hover:bg-[#ff1b1bc7] duration-300 ">
+            <button disabled={confetti || isLoading} className="bg-[#e34444c7] p-[.75rem] rounded-md text-slate-50 opacity-100 font-semibold w-[80%] mx-auto transition-all hover:bg-[#ff1b1bc7] duration-300">
               {isLoading ? 'Please wait...' : 'Submit'}
             </button>
           </form>

@@ -119,7 +119,7 @@ export default function LoginPage() {
 
             {serverValidations && <p className='text-red-600 font-semibold mb-2'>{serverValidations}</p>}
             {clientValidations && <p className='text-red-600 font-semibold mb-2'>Please enter valid username and password.</p>}
-            <button className={`bg-[#e34444c7] p-[.75rem] rounded-md text-slate-50 opacity-100 font-semibold w-[80%] mx-auto transition-all hover:bg-[#f155b0bd] duration-300 ${!clientValidations ? 'cursor-pointer' : 'cursor-not-allowed hover:bg-slate-400'}`} disabled={clientValidations}>{!isLoggingIn ? 'Login' : 'Please wait...'}</button>
+            <button className="bg-[#e34444c7] p-[.75rem] rounded-md text-slate-50 opacity-100 font-semibold w-[80%] mx-auto transition-all hover:bg-[#ff1b1bc7] duration-300" disabled={clientValidations}>{!isLoggingIn ? 'Login' : 'Please wait...'}</button>
           </form>
           <p className='text-sm pt-2 text-center font-semibold'>Don&apos;t have an account? <Link href='/register' className='text-blue-600 underline'>Signup</Link></p>
           <div className="flex items-center justify-center my-4">

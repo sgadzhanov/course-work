@@ -1,7 +1,9 @@
 'use client'
-import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import Image from "next/image";
-import { useCartStore } from "../store/store";
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { useCartStore, useUserStore } from "../store/store";
 
 const backgroundImageStyle = {
   backgroundImage: 'url("https://cdn.pixabay.com/photo/2021/05/23/16/23/pizza-background-6276659_1280.jpg")',
@@ -15,10 +17,15 @@ const backgroundImageStyle = {
 
 export default function CartPage() {
   const { products, removeFromCart, totalItems, totalPrice } = useCartStore()
+  const { data: session } = useSession()
+  const { email } = useUserStore()
+  const router = useRouter()
 
   useEffect(() => {
     useCartStore.persist.rehydrate()
   }, [])
+
+  const userEmail = email ? email : session?.user?.email
 
   if (products.length === 0) {
     return (
@@ -28,6 +35,26 @@ export default function CartPage() {
         </section>
       </div>
     )
+  }
+
+  const onCheckout = async () => {
+    try {
+      const res = await fetch('http://localhost:3000/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          price: totalPrice,
+          products,
+          status: 'Not Paid!',
+          userEmail,
+        })
+      })
+      const orderId = await res.json()
+      console.log({orderId})
+      router.push(`/payment/${orderId}`)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (
@@ -77,7 +104,7 @@ export default function CartPage() {
           <span className="uppercase">Total (Incl. Val)</span>
           <span className="font-bold">${totalPrice.toFixed(2)}</span>
         </div>
-        <button className="bg-red-500 text-slate-100 p-3 rounded-md w-1/2 hover:bg-[#bf1f22] transition-all duration-600 self-end">Checkout</button>
+        <button className="bg-red-500 text-slate-100 p-3 rounded-md w-1/2 hover:bg-[#bf1f22] transition-all duration-600 self-end" onClick={onCheckout}>Checkout</button>
       </div>
     </div>
   )
