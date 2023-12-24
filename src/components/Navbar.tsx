@@ -11,9 +11,9 @@ export default function Navbar() {
       <div className="hidden md:flex gap-4 flex-1">
         <Link
           className={linkStyles}
-          href='/homepage'
+          href='/'
         >
-          Homepage
+          Home
         </Link>
         <Link
           className={linkStyles}
@@ -23,7 +23,7 @@ export default function Navbar() {
         </Link>
         <Link
           className={linkStyles}
-          href='/'
+          href='/contacts'
         >
           Contact
         </Link>

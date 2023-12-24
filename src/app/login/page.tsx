@@ -5,15 +5,15 @@ import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import Link from 'next/link';
 import { useUserStore } from '../store/store';
+import Loading from '@/components/Loading';
 
 const backgroundImageStyle = {
   backgroundImage: 'url("https://cdn.pixabay.com/photo/2021/05/23/16/23/pizza-background-6276659_1280.jpg")',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  minHeight: 'calc(100vh - 8rem)', // Ensures the background covers the entire viewport height
+  minHeight: 'calc(100vh - 8rem)',
   display: 'flex',
   justifyContent: 'center',
-  // alignItems: 'center',
 }
 
 const initialUserCredentials = {
@@ -36,8 +36,9 @@ export default function LoginPage() {
   }, [])
 
   if (status === 'loading') {
-    return <p className='text-center text-xl mt-4'>Loading...</p>
+    return <Loading />
   }
+
   if (data?.user?.email) {
     console.log(data?.user?.email)
     router.push('/')

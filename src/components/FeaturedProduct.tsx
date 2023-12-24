@@ -1,10 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 
 type FeaturedProductProps = {
   img?: string
   title: string
   price: number
   desc?: string
+  id: string
+  category: string
 }
 
 export default function FeaturedProduct({
@@ -12,6 +15,8 @@ export default function FeaturedProduct({
   title,
   price,
   desc,
+  id,
+  category,
 }: FeaturedProductProps) {
   return (
     <div className="w-screen h-[60vh] flex flex-col items-center justify-around p-4 hover:bg-fuchsia-50 transition-all duration-500 md:w-[50vw] xl:w-[33vw] xl:h-[90vh]">
@@ -29,7 +34,9 @@ export default function FeaturedProduct({
         <h1 className="text-xl font-bold uppercase xl:text-2xl 2xl:text-3xl">{title}</h1>
         <p className="p-4 2xl:p-8 text-lg">{desc}</p>
         <span className="text-xl font-bold">${(+price).toFixed(2)}</span>
-        <button className="bg-red-500 text-white p-2 rounded-md">Add to Cart</button>
+        <Link href={`/menu/${category}/${id}`}>
+          <button className="bg-red-500 text-white p-2 rounded-md">Add to Cart</button>
+        </Link>
       </div>
     </div>
   )

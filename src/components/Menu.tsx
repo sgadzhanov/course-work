@@ -6,8 +6,7 @@ import CartIcon from "./CartIcon"
 
 export default function Menu() {
   const [isOpened, setIsOpened] = useState(false)
-  // TMP USER
-  const user = false
+
   return (
     <div>
       {isOpened ? (
@@ -38,15 +37,6 @@ export default function Menu() {
               {link.title}
             </Link>
           )}
-          {/* {!user ? (
-            <Link href='/login' onClick={() => setIsOpened(false)}>
-              Login
-            </Link>
-          ) : (
-            <Link href='orders' onClick={() => setIsOpened(false)}>
-              Orders
-            </Link>
-          )} */}
           <Link href='/cart' onClick={() => setIsOpened(false)}>
             <CartIcon />
           </Link>

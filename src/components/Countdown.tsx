@@ -5,7 +5,7 @@ import Countdown from "react-countdown"
 const roboto = Roboto({ weight: '500', subsets: ['latin'] })
 
 export default function CountDown() {
-  const promotionEnds = new Date('2023-11-25')
+  const promotionEnds = new Date('2023-12-29')
   return (
     <div className='text-yellow-300 text-4xl lg:text-5xl font-bold'>
       <div className={roboto.className}>

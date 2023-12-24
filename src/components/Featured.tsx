@@ -15,6 +15,8 @@ export default async function Featured() {
         {products.map((product: Product) => (
           <FeaturedProduct
             key={product.id}
+            id={product.id}
+            category={product.catSlug ? product.catSlug : ''}
             img={product.img}
             title={product.title}
             price={product.price}

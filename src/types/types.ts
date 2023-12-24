@@ -13,6 +13,7 @@ export type Product = {
   title: string
   desc?: string
   img?: string
+  catSlug?: string
   price: number
   options?: { title: string, additionalPrice: number }[]
   ratings: Rating[]

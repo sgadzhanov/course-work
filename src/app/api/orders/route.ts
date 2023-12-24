@@ -4,7 +4,7 @@ import { getAuthSession } from "@/utils/auth"
 
 export async function GET(req: NextRequest) {
   const session = await getAuthSession()
-  // todo remove session and isAdmin
+
   if (session) {
     try {
       if (session.user.isAdmin) {

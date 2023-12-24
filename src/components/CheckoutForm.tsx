@@ -65,7 +65,7 @@ export default function CheckoutForm() {
   }
 
   return (
-    <section className="flex flex-col justify-center items-center h-[calc(100vh-10rem)]">
+    <section className="flex flex-col justify-center items-center my-6">
       <form
         className="w-full md:w-2/3 min-w-[300px] p-6 bg-violet-50 rounded-lg"
         id='payment-form'
