@@ -17,7 +17,7 @@ export default function MenuItem({
 }: MenuItemProps) {
   return (
     <Link
-      className="flex bg-red-700 bg-cover h-full p-6 w-full md:w-1/3 transition-transform transform hover:scale-102"
+      className="flex bg-red-700 bg-cover h-full p-6 w-full md:w-1/3"
       style={{ backgroundImage: `url(${img})` }}
       href={`/menu/${slug}`}
     >

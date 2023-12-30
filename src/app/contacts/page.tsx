@@ -1,6 +1,6 @@
 'use client'
-import { ChangeEvent, useState } from "react";
-import { useRouter } from "next/navigation";
+import { ChangeEvent, useState } from "react"
+import { useRouter } from "next/navigation"
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -135,5 +135,5 @@ export default function Contact() {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}

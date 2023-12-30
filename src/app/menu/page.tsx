@@ -15,7 +15,6 @@ async function getCategories() {
 
 export default async function MenuPage() {
   const categories: Category[] = await getCategories()
-
   const session = await getAuthSession()
 
   return (
