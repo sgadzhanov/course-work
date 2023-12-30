@@ -5,12 +5,12 @@ import PromotionBar from '@/components/PromotionBar'
 import QueryProvider from '@/components/QueryProvider'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 
 import './globals.css'
 
-const inter = Inter({ weight: '400', subsets: ['latin']  })
+const inter = Inter({ weight: '400', subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Food Delivery App',
   description: 'Best in the town! (:',
@@ -23,16 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body id='root' style={{
-        margin: 0,
-        padding: 0,
-        backgroundImage: 'url("https://example.com/path-to-your-image.jpg")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        // height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
+      <body id='root'
         className={inter.className}>
         <AuthProvider>
           <QueryProvider>

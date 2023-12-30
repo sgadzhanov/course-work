@@ -8,7 +8,6 @@ export default function CheckoutForm() {
   const stripe = useStripe()
   const elements = useElements()
 
-  const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
@@ -65,7 +64,7 @@ export default function CheckoutForm() {
   }
 
   return (
-    <section className="flex flex-col justify-center items-center h-[calc(100vh-10rem)]">
+    <section className="flex flex-col justify-center items-center my-6">
       <form
         className="w-full md:w-2/3 min-w-[300px] p-6 bg-violet-50 rounded-lg"
         id='payment-form'
@@ -84,10 +83,7 @@ export default function CheckoutForm() {
           disabled={isLoading || !stripe || !elements}
           id='submit'
         >
-          {isLoading
-            ? 'Please wait...'
-            : 'Pay now'
-          }
+          {isLoading ? 'Please wait...' : 'Pay now'}
         </button>
         {message && <div id='payment-message'>{message}</div>}
       </form>

@@ -1,4 +1,3 @@
-import AddToCartButton from "@/components/AddToCartButton"
 import { Product } from "@/types/types"
 import Image from "next/image"
 import Link from "next/link"
@@ -8,7 +7,9 @@ type CategoryPageParams = {
 }
 
 async function getFilteredProducts(param: string) {
-  const res = await fetch('http://localhost:3000/api/products' + '?cat=' + param)
+  const res = await fetch('http://localhost:3000/api/products' + '?cat=' + param,
+    { cache: "no-store" }
+  )
   return res.json()
 }
 
@@ -16,7 +17,7 @@ export default async function CategoryPage({ params }: CategoryPageParams) {
   const fetchedProducts: Product[] = await getFilteredProducts(params.category)
 
   return (
-    <section className="flex flex-wrap text-red-600">
+    <section className="flex flex-wrap text-red-600 min-h-[calc(100vh-10rem)]">
       {fetchedProducts.map((item) => (
         <Link
           key={item.id}
@@ -36,7 +37,9 @@ export default async function CategoryPage({ params }: CategoryPageParams) {
           <h2 className="font-bold text-xl py-2">{item.title}</h2>
           <div className="flex items-center justify-between">
             <h4 className="text-red-5000">${(+item.price).toFixed(2)}</h4>
-            <AddToCartButton item={item} />
+            <button className="bg-red-600 text-slate-100 p-2 rounded font-semibold uppercase">
+              add to cart
+            </button>
           </div>
         </Link>
       ))}

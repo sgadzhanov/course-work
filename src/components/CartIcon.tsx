@@ -20,7 +20,7 @@ export default function CartIcon() {
           fill
         />
       </div>
-      <span className="hover:text-fuchsia-400 transition-all duration-400 md:font-semibold">Cart ({totalItems})</span>
+      <span className="hover:text-amber-500 transition-all duration-400 md:font-semibold">Cart ({totalItems})</span>
     </Link>
   )
 }

@@ -13,7 +13,6 @@ export default function PaymentPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     const makeRequest = async () => {
       try {
-        console.log('before making request');
         const res = await fetch(
           `http://localhost:3000/api/create-intent/${id}`,
           {

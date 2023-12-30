@@ -25,14 +25,17 @@ export const useCartStore = create(persist<ExtendedCartType>((set, get) => ({
     const existingItem = products.find(p => p.id === item.id && p.optionTitle === item.optionTitle)
 
     if (existingItem) {
-      const newProducts = products.map(p => p.id === existingItem.id && p.optionTitle === existingItem.optionTitle
-        ? {
-          ...item,
-          quantity: existingItem.quantity + item.quantity,
-          price: existingItem.price + item.price,
+      const newProducts = products.map(p => {
+        if (p.id === existingItem.id && p.optionTitle === existingItem.optionTitle) {
+          const tmp = {
+            ...item,
+            quantity: existingItem.quantity + item.quantity,
+            price: existingItem.price + item.price,
+          }
+          return tmp
         }
-        : item
-      )
+        return p
+      })
       set((state) => ({
         products: newProducts,
         totalItems: state.totalItems + item.quantity,

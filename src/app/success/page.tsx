@@ -2,12 +2,15 @@
 import { useEffect } from 'react'
 import { useSearchParams } from "next/navigation"
 import { useRouter } from 'next/navigation'
+import { useCartStore } from '../store/store'
 import ReactConfetti from 'react-confetti'
+import Link from 'next/link'
 
-export default function SuccessPage() {
+export default function SuccessPage({ message }: { message: string | undefined }) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const paymentIntentId = searchParams.get('payment_intent')
+  const { resetCart } = useCartStore()
 
   useEffect(() => {
     if (!paymentIntentId) return
@@ -19,24 +22,37 @@ export default function SuccessPage() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ paymentIntentId }),
         })
-        setTimeout(() => router.push('/orders'), 5000)
+        setTimeout(() => router.push('/orders'), 200000)
       } catch (e) {
         console.log(e)
       }
     }
     updateOrder()
+    // the cart with current products should be cleared after successful payment
+    resetCart()
   }, [paymentIntentId])
 
   return (
     <>
-      <div className='min-h-[calc(100vh-10rem)] flex items-center justify-center text-center text-xl text-lime-500'>
-        <p className='max-w[600px]'>
-          Payment successful. You are being redirected to the orders page. Please don&apos;t close this page.
-        </p>
-        <ReactConfetti
-          width={window.innerWidth}
-          height={window.innerHeight}
-        />
+      <div className='h-[calc(100vh-11rem)] flex flex-col items-center justify-center'>
+        {paymentIntentId ? (
+          <div className='bg-white p-12 rounded-lg shadow-xl max-w-md'>
+            <span className='text-xl text-slate-700 mb-6'>
+              {message ? message : 'Payment successful! You are being redirected to the orders page. Please don\'t close this page.'}
+            </span>
+            {!message && (
+              <ReactConfetti
+                width={window.innerWidth}
+                height={window.innerHeight}
+              />
+            )}
+          </div>
+        ) : (
+          <div>
+            <p className='text-lg'>Something went wrong...</p>
+            <Link className='underline text-sky-600' href='/'>Home Page</Link>
+          </div>
+        )}
       </div>
     </>
   )

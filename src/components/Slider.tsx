@@ -30,6 +30,7 @@ export default function Slider() {
           {isPizza(data[currentSlide].title) ? 'Order your pizza!' : 'Order now!'}
         </button>
       </div>
+      {/* IMAGE CONTAINER */}
       <div className="w-full flex-1 relative">
         <Image
           src={data[currentSlide].image}

@@ -2,8 +2,9 @@
 import { useSession } from 'next-auth/react';
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useCartStore, useUserStore } from "../store/store";
+import Loading from '@/components/Loading';
 
 const backgroundImageStyle = {
   backgroundImage: 'url("https://cdn.pixabay.com/photo/2021/05/23/16/23/pizza-background-6276659_1280.jpg")',
@@ -21,6 +22,8 @@ export default function CartPage() {
   const { email } = useUserStore()
   const router = useRouter()
 
+  const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
     useCartStore.persist.rehydrate()
   }, [])
@@ -37,8 +40,13 @@ export default function CartPage() {
     )
   }
 
+  if (isLoading) {
+    return <Loading />
+  }
+
   const onCheckout = async () => {
     try {
+      setIsLoading(true)
       const res = await fetch('http://localhost:3000/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,9 +58,9 @@ export default function CartPage() {
         })
       })
       const orderId = await res.json()
-      console.log({orderId})
       router.push(`/payment/${orderId}`)
     } catch (e) {
+      setIsLoading(false)
       console.log(e)
     }
   }
@@ -63,19 +71,21 @@ export default function CartPage() {
       <div className="h-1/2 p-4 flex flex-col md:w-full lg:justify-center overflow-scroll overflow-x-hidden lg:w-2/3 lg:h-full 2xl:w-1/2">
         {products.map(p => (
           <div key={p.id} className="flex items-center justify-between mb-4">
-            {p.img &&
-              <Image
-                src={p.img}
-                alt='alt'
-                width={100}
-                height={100}
-              />
-            }
-            <div className='flex flex-col'>
+            <div className='w-1/6 md:w-1/4'>
+              {p.img &&
+                <Image
+                  src={p.img}
+                  alt='alt'
+                  width={100}
+                  height={100}
+                />
+              }
+            </div>
+            <div className='flex flex-col w-1/4 text-right'>
               <h1 className="uppercase text-xl font-bold">{p.title}</h1>
               <span className='text-right text-sm font-semibold'>{p.optionTitle}{' x' + p.quantity + ' '}</span>
             </div>
-            <h2 className="font-bold">${p.price.toFixed(2)}</h2>
+            <h2 className="font-bold w-1/5">${p.price.toFixed(2)}</h2>
             <span
               className="cursor-pointer"
               onClick={() => removeFromCart(p)}
@@ -104,7 +114,12 @@ export default function CartPage() {
           <span className="uppercase">Total (Incl. Val)</span>
           <span className="font-bold">${totalPrice.toFixed(2)}</span>
         </div>
-        <button className="bg-red-500 text-slate-100 p-3 rounded-md w-1/2 hover:bg-[#bf1f22] transition-all duration-600 self-end" onClick={onCheckout}>Checkout</button>
+        <button
+          className="bg-red-500 text-slate-100 p-3 rounded-md w-1/2 hover:bg-[#bf1f22] transition-all duration-600 self-end"
+          onClick={onCheckout}
+        >
+          {isLoading ? 'Please wait' : 'Checkout'}
+        </button>
       </div>
     </div>
   )

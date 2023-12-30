@@ -33,7 +33,7 @@ export default function Price({ product }: PriceProps) {
     if (size !== 'small') {
       additionalPrice = options?.find(o => o.title === size)?.additionalPrice ?? 0
     }
-    const totalPrice = (+price + additionalPrice) * quantity
+    const totalPrice = (+price + +additionalPrice) * quantity
     setCurrentPrice(totalPrice)
   }, [quantity, price, size, options])
 

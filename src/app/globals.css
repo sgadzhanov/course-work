@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+#root {
+  margin: 0;
+  padding: 0;
+  background-image: 'url("https://example.com/path-to-your-image.jpg")';
+  background-size: 'cover';
+  background-position: 'center';
+  display: 'flex';
+  flex-direction: 'column';
+}
+
 ::-webkit-scrollbar {
   width: .75rem;
 }

@@ -7,10 +7,11 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useUserStore } from '../store/store'
+import Loading from '@/components/Loading'
 
 const backgroundImageStyle = {
   backgroundImage: 'url("https://cdn.pixabay.com/photo/2021/05/23/16/23/pizza-background-6276659_1280.jpg")',
-  minHeight: 'calc(100vh - 10rem)'
+  minHeight: 'calc(100vh - 6.5rem)'
 }
 
 
@@ -51,9 +52,7 @@ export default function Orders() {
   })
 
   if (isLoading || status === 'loading') {
-    return (
-      <p className='text-center font-semibold text-lg mt-8'>Loading...</p>
-    )
+    return <Loading />
   }
 
   const updateHandler = (e: React.FormEvent<HTMLFormElement>, id: string) => {

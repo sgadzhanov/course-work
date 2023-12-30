@@ -5,15 +5,15 @@ import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import Link from 'next/link';
 import { useUserStore } from '../store/store';
+import Loading from '@/components/Loading';
 
 const backgroundImageStyle = {
   backgroundImage: 'url("https://cdn.pixabay.com/photo/2021/05/23/16/23/pizza-background-6276659_1280.jpg")',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  minHeight: 'calc(100vh - 8rem)', // Ensures the background covers the entire viewport height
+  minHeight: 'calc(100vh - 6rem)',
   display: 'flex',
   justifyContent: 'center',
-  // alignItems: 'center',
 }
 
 const initialUserCredentials = {
@@ -36,17 +36,16 @@ export default function LoginPage() {
   }, [])
 
   if (status === 'loading') {
-    return <p className='text-center text-xl mt-4'>Loading...</p>
+    return <Loading />
   }
+
   if (data?.user?.email) {
-    console.log(data?.user?.email)
     router.push('/')
   }
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setServerValidations('')
-    console.log('submitting');
 
     const { username, password } = userCredentials
     if (username.trim().length < 5 || password.trim().length < 5) {
@@ -66,11 +65,11 @@ export default function LoginPage() {
 
       if (res.status === 401) {
         setServerValidations(answer.message)
+        setIsLoggingIn(false)
         return
       }
 
       login(username, password)
-      // window.localStorage.setItem('user', JSON.stringify({ username }))
       setIsLoggingIn(false)
       router.push('/')
     } catch (e) {
@@ -81,7 +80,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div style={backgroundImageStyle} className='h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)]'>
+    <div style={backgroundImageStyle}>
       <div className="w-[85%] md:w-1/2 lg:w-[40%] xl:w-1/3 mt-10">
         <div className='bg-[#e9e9e9d9] p-4 rounded-lg'>
           <form onSubmit={submitHandler} className='flex flex-col'>
