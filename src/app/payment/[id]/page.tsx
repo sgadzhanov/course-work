@@ -3,29 +3,34 @@ import { useEffect, useState } from "react"
 import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js"
 import { Elements } from "@stripe/react-stripe-js"
 import CheckoutForm from "@/components/CheckoutForm"
+import Loading from "@/components/Loading"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 export default function PaymentPage({ params }: { params: { id: string } }) {
   const { id } = params
   const [clientSecret, setClientSecret] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const makeRequest = async () => {
       try {
+        setIsLoading(true)
         const res = await fetch(
           `http://localhost:3000/api/create-intent/${id}`,
           {
             method: "POST",
           }
-        );
-        const data = await res.json();
-        setClientSecret(data.clientSecret);
+        )
+        const data = await res.json()
+        setIsLoading(false)
+        setClientSecret(data.clientSecret)
       } catch (err) {
-        console.log(err);
+        setIsLoading(false)
+        console.log(err)
       }
-    };
-    makeRequest();
+    }
+    makeRequest()
   }, [id])
 
   const options: StripeElementsOptions = {
@@ -33,6 +38,10 @@ export default function PaymentPage({ params }: { params: { id: string } }) {
     appearance: {
       theme: "stripe"
     }
+  }
+
+  if (isLoading) {
+    return <Loading />
   }
 
   return (

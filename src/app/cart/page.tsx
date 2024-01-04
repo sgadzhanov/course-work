@@ -58,6 +58,7 @@ export default function CartPage() {
         })
       })
       const orderId = await res.json()
+      setIsLoading(false)
       router.push(`/payment/${orderId}`)
     } catch (e) {
       setIsLoading(false)
