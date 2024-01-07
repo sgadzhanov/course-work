@@ -30,11 +30,16 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json()
+    const { price, products, status, userEmail } = await req.json()
     const newOrder = await prisma.order.create({
-      data: body,
+      data: {
+        price,
+        products,
+        status,
+        userEmail
+      },
     })
-    return new NextResponse(JSON.stringify(newOrder.id), { status: 201 })
+    return new NextResponse(JSON.stringify(newOrder), { status: 201 })
   } catch (e) {
     console.log(e)
     return new NextResponse(JSON.stringify({

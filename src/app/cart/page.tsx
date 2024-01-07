@@ -45,6 +45,11 @@ export default function CartPage() {
   }
 
   const onCheckout = async () => {
+    if (!userEmail) {
+      router.push('/')
+      return
+    }
+
     try {
       setIsLoading(true)
       const res = await fetch('http://localhost:3000/api/orders', {
@@ -57,9 +62,9 @@ export default function CartPage() {
           userEmail,
         })
       })
-      const orderId = await res.json()
+      const data = await res.json()
       setIsLoading(false)
-      router.push(`/payment/${orderId}`)
+      router.push(`/payment/${data.id}`)
     } catch (e) {
       setIsLoading(false)
       console.log(e)

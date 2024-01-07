@@ -8,7 +8,7 @@ export default function CheckoutForm() {
   const stripe = useStripe()
   const elements = useElements()
 
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState<string | null>('')
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
@@ -18,29 +18,24 @@ export default function CheckoutForm() {
 
     if (!clientSecret) return
 
-    stripe.retrievePaymentIntent(clientSecret)
-      .then(({ paymentIntent }) => {
-        if (!paymentIntent) {
+    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+      switch (paymentIntent?.status) {
+        case 'succeeded':
+          setMessage('Payment succeeded!')
+          break
+        case 'processing':
+          setMessage('Your payment is processing.')
+          break
+        case 'requires_payment_method':
+          setMessage('Your payment was not successful, please try again.')
+          break
+        default:
           setMessage('Something went wrong.')
-          return
-        }
-        switch (paymentIntent.status) {
-          case 'succeeded':
-            setMessage('Payment succeeded!')
-            break
-          case 'processing':
-            setMessage('Your payment is processing.')
-            break
-          case 'requires_payment_method':
-            setMessage('Your payment was not successful, please try again.')
-            break
-          default:
-            setMessage('Something went wrong.')
-        }
-      })
+      }
+    })
   }, [stripe])
 
-  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (!stripe || !elements) return
@@ -68,7 +63,7 @@ export default function CheckoutForm() {
       <form
         className="w-full md:w-2/3 min-w-[300px] p-6 bg-violet-50 rounded-lg"
         id='payment-form'
-        onSubmit={submitHandler}
+        onSubmit={handleSubmit}
       >
         <LinkAuthenticationElement
           id='link-authentication-element'
@@ -77,10 +72,10 @@ export default function CheckoutForm() {
           id='payment-element'
           options={{ layout: 'tabs' }}
         />
-        <AddressForm />
+        {/* <AddressForm /> */}
         <button
           className="mt-4 duration-300 hover:border-indigo-300 w-40 border-2 rounded-full border-indigo-200 shadow-lg py-2 px-6 self-end bg-indigo-100"
-          disabled={isLoading || !stripe || !elements}
+          disabled={!stripe || !elements}
           id='submit'
         >
           {isLoading ? 'Please wait...' : 'Pay now'}

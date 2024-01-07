@@ -71,6 +71,7 @@ export default function Orders() {
     return products.map(p => p.title).join(', ')
   }
 
+  console.log({ data })
   return (
     <section style={backgroundImageStyle} className="p-4 h-[calc(100vh-11.5rem)] lg:px-20 xl:px-40">
       {data.length === 0 ? (
@@ -84,6 +85,7 @@ export default function Orders() {
           <thead>
             <tr className="p-[.3rem] text-left bg-orange-200">
               <th className="p-[.3rem] hidden md:block">Order ID</th>
+              <th className="p-[.3rem]">Email</th>
               <th className='p-[.3rem]'>Date</th>
               <th className='p-[.3rem]'>Price</th>
               <th className="p-[.3rem] hidden md:block">Products</th>
@@ -97,6 +99,7 @@ export default function Orders() {
                 className={`font-semibold text-sm md:text-base ${order.status.toLowerCase() === 'delivered' ? 'bg-green-100' : 'bg-fuchsia-50'}`}
               >
                 <td className="hidden md:block py-4 px-1">{order.id}</td>
+                <td className="py-4 px-1">{order.userEmail}</td>
                 <td className="py-4 px-1">{order.createdAt.toString().slice(0, 10)}</td>
                 <td className="py-4 px-1">${Number(order.price).toFixed(2)}</td>
                 <td className="hidden md:block py-4 px-1">{formatProducts(order.products)}</td>

@@ -1,59 +1,65 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from "next/navigation"
 import { useRouter } from 'next/navigation'
 import { useCartStore } from '../store/store'
 import ReactConfetti from 'react-confetti'
-import Link from 'next/link'
 
-export default function SuccessPage({ message }: { message: string | undefined }) {
-  const router = useRouter()
+export default function SuccessPage() {
   const searchParams = useSearchParams()
-  const paymentIntentId = searchParams.get('payment_intent')
+  const payment_intent = searchParams.get('payment_intent')
+  const router = useRouter()
+
   const { resetCart } = useCartStore()
 
-  useEffect(() => {
-    if (!paymentIntentId) return
+  const [error, setError] = useState(false)
 
-    const updateOrder = async () => {
+  useEffect(() => {
+    const abortController = new AbortController()
+    const makeRequest = async () => {
       try {
-        await fetch('http://localhost:3000/api/confirm-order/', {
+        const res = await fetch(`http://localhost:3000/api/confirm-order/${payment_intent}`, {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ paymentIntentId }),
+          signal: abortController.signal,
         })
-        setTimeout(() => router.push('/orders'), 200000)
-      } catch (e) {
-        console.log(e)
+        if (res.status === 200) {
+          resetCart()
+          setError(false)
+          setTimeout(() => { router.push('/orders') }, 4000)
+        } else {
+          setError(true)
+          setTimeout(() => { router.push('/cart') }, 4000)
+        }
+      } catch (e: any) {
+        if (e.name === 'AbortError') {
+          return
+        }
+        console.log(e);
       }
     }
-    updateOrder()
-    // the cart with current products should be cleared after successful payment
-    resetCart()
-  }, [paymentIntentId])
+
+    makeRequest()
+
+    return () => {
+      abortController.abort()
+    }
+  }, [payment_intent])
 
   return (
     <>
-      <div className='h-[calc(100vh-11rem)] flex flex-col items-center justify-center'>
-        {paymentIntentId ? (
-          <div className='bg-white p-12 rounded-lg shadow-xl max-w-md'>
-            <span className='text-xl text-slate-700 mb-6'>
-              {message ? message : 'Payment successful! You are being redirected to the orders page. Please don\'t close this page.'}
-            </span>
-            {!message && (
-              <ReactConfetti
-                width={window.innerWidth}
-                height={window.innerHeight}
-              />
-            )}
-          </div>
-        ) : (
-          <div>
-            <p className='text-lg'>Something went wrong...</p>
-            <Link className='underline text-sky-600' href='/'>Home Page</Link>
-          </div>
-        )}
-      </div>
+      {error ? (
+        <div className="min-h-[calc(100vh-6rem)] md:min-h-[calc(100vh-15rem)] flex items-center justify-center text-center text-2xl text-red-600">
+          There was an error processing your payment. Please try again later.
+        </div>
+      ) : (
+        <div className="min-h-[calc(100vh-6rem)] md:min-h-[calc(100vh-15rem)] flex items-center justify-center text-center text-2xl text-green-700">
+          <p className="max-w-[600px]">
+            Payment successful. You are being redirected to the orders page.
+            Please do not close the page.
+          </p>
+          <ReactConfetti width={window.innerWidth} height={window.innerHeight} />
+        </div>
+      )}
     </>
   )
 }

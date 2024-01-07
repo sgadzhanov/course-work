@@ -13,24 +13,28 @@ export default function PaymentPage({ params }: { params: { id: string } }) {
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    const makeRequest = async () => {
+    const abortController = new AbortController()
+    const fetchData = async () => {
       try {
         setIsLoading(true)
-        const res = await fetch(
-          `http://localhost:3000/api/create-intent/${id}`,
-          {
-            method: "POST",
-          }
-        )
+        const res = await fetch(`http://localhost:3000/api/create-intent/${id}`, {
+          method: "POST",
+          signal: abortController.signal,
+        })
         const data = await res.json()
         setIsLoading(false)
         setClientSecret(data.clientSecret)
-      } catch (err) {
+      } catch (e: any) {
         setIsLoading(false)
-        console.log(err)
+        console.log(e)
       }
     }
-    makeRequest()
+    fetchData()
+
+    return () => {
+      // abort the fetch request when the component unmounts
+      abortController.abort()
+    }
   }, [id])
 
   const options: StripeElementsOptions = {
