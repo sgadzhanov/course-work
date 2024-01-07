@@ -67,11 +67,11 @@ export default async function AddProduct() {
 
   return (
     <section className="w-4/5 md:w-1/2 xl:w-2/5 h-[calc(100vh-12rem)] overflow-hidden overflow-y-scroll mt-8 mx-auto p-4 bg-white shadow-md rounded">
-      <h2 className="text-lg font-semibold mb-4 text-slate-700">Add Product</h2>
+      <h2 className="text-lg font-semibold mb-4 text-slate-700">Добави продукт</h2>
       <form action={submitForm}>
         {/* Title */}
         <div className="mb-4">
-          <label htmlFor="title" className="block text-base font-medium text-slate-700">Title:</label>
+          <label htmlFor="title" className="block text-base font-medium text-slate-700">Наименование:</label>
           <input type="text" min={4} id="title" name="title" required
             className="mt-1 p-2 border border-slate-300 rounded-md w-full outline-none"
           />
@@ -79,7 +79,7 @@ export default async function AddProduct() {
 
         {/* Category */}
         <div className="mb-4">
-          <label htmlFor="category" className="block text-base font-medium text-slate-700">Category:</label>
+          <label htmlFor="category" className="block text-base font-medium text-slate-700">Категория</label>
           <input type="text" min={4} id="category" name="category" required
             className="mt-1 p-2 border border-slate-300 rounded-md w-full outline-none"
           />
@@ -87,14 +87,14 @@ export default async function AddProduct() {
 
         {/* Price */}
         <div className="mb-4">
-          <label htmlFor="price" className="block text-base font-medium text-slate-700">Price:</label>
+          <label htmlFor="price" className="block text-base font-medium text-slate-700">Цена:</label>
           <input type="number" min={1} id="price" name="price" step="0.10" required
             className="mt-1 p-2 border border-slate-300 rounded-md w-full outline-none"
           />
         </div>
         {/* DESCRIPTION */}
         <div className="mb-4">
-          <label htmlFor="description" className="block text-base font-medium text-slate-700">Description:</label>
+          <label htmlFor="description" className="block text-base font-medium text-slate-700">Описание:</label>
           <textarea
             id="description"
             name="description"
@@ -106,21 +106,21 @@ export default async function AddProduct() {
 
         {/* ADD OPTIONS */}
         <div className="border-y border-slate-300 pt-2 mb-2">
-          <p className="text-slate-700">Add price for each option (not required)</p>
+          <p className="text-slate-700">Добавете цена за всяка опция (не е задължително)</p>
           <div className="mb-4">
-            <label htmlFor="small" className="block text-base font-medium text-slate-700">Small</label>
+            <label htmlFor="small" className="block text-base font-medium text-slate-700">Малка</label>
             <input type="number" placeholder="Additional Price For Small" min={0} id="small" name="small" step="0.10"
               className="mt-1 p-2 border border-slate-300 rounded-md w-full outline-none"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="medium" className="block text-base font-medium text-slate-700">Medium</label>
+            <label htmlFor="medium" className="block text-base font-medium text-slate-700">Средна</label>
             <input type="number" placeholder="Additional Price For Medium" min={1} id="medium" name="medium" step="0.10"
               className="mt-1 p-2 border border-slate-300 rounded-md w-full outline-none"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="large" className="block text-base font-medium text-slate-700">Large</label>
+            <label htmlFor="large" className="block text-base font-medium text-slate-700">Голяма</label>
             <input type="number" placeholder="Additional Price For Large" min={1} id="large" name="large" step="0.10"
               className="mt-1 p-2 border border-slate-300 rounded-md w-full outline-none"
             />
@@ -129,7 +129,7 @@ export default async function AddProduct() {
 
         {/* File Upload (Image) */}
         <div className="mb-2 pb-[.75rem] border-b border-slate-300">
-          <label htmlFor="image" className="flex text-sm font-medium text-slate-700">Upload Image:</label>
+          <label htmlFor="image" className="flex text-sm font-medium text-slate-700">Добави изображение</label>
           <div className="flex items-center mt-1 gap-1 text-slate-500">
             <label className="flex items-center p-2 rounded-md cursor-pointer transition-all duration-150 hover:bg-slate-100">
               <input type="file" id="image" name="image" accept="image/*" className="cursor-pointer" />

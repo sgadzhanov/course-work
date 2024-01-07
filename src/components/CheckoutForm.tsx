@@ -72,7 +72,7 @@ export default function CheckoutForm() {
           id='payment-element'
           options={{ layout: 'tabs' }}
         />
-        {/* <AddressForm /> */}
+        <AddressForm />
         <button
           className="mt-4 duration-300 hover:border-indigo-300 w-40 border-2 rounded-full border-indigo-200 shadow-lg py-2 px-6 self-end bg-indigo-100"
           disabled={!stripe || !elements}

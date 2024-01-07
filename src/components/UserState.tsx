@@ -22,7 +22,7 @@ export default function UserState() {
     <section>
       {status === 'authenticated' || userEmail ? (
         <div>
-          <Link className={linkStyles} href='/orders'>Orders</Link>
+          <Link className={linkStyles} href='/orders'>История</Link>
           <span
             className='ml-4 cursor-pointer hover:text-amber-500 transition-all duration-400 md:font-semibold'
             onClick={() => {
@@ -32,7 +32,7 @@ export default function UserState() {
               logout()
             }}
           >
-            Logout
+            Изход
           </span>
         </div>
       ) : (
@@ -40,7 +40,7 @@ export default function UserState() {
           className={linkStyles}
           href='/login'
         >
-          Login
+          Вход
         </Link>
       )}
     </section>

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect} from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCartStore } from "@/app/store/store";
@@ -20,7 +20,9 @@ export default function CartIcon() {
           fill
         />
       </div>
-      <span className="hover:text-amber-500 transition-all duration-400 md:font-semibold">Cart ({totalItems})</span>
+      <span className="hover:text-amber-500 transition-all duration-400 min-w-[8rem] md:font-semibold">
+        Koшница ({totalItems})
+      </span>
     </Link>
   )
 }

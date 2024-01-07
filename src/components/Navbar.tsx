@@ -3,6 +3,7 @@ import Image from "next/image"
 import Menu from "./Menu"
 import CartIcon from "./CartIcon"
 import UserState from "./UserState"
+import { HiHome } from "react-icons/hi"
 
 export default function Navbar() {
   return (
@@ -10,28 +11,28 @@ export default function Navbar() {
       {/* LEFT LINKS */}
       <div className="hidden md:flex gap-4 flex-1">
         <Link
-          className={linkStyles}
+          className="hover:text-amber-500 transition-all duration-400 md:font-semibold"
           href='/'
         >
-          Home
+          <HiHome className="w-6 h-6" />
         </Link>
         <Link
           className={linkStyles}
           href='/menu'
         >
-          Menu
+          Меню
         </Link>
         <Link
           className={linkStyles}
           href='/contacts'
         >
-          Contact
+          Контакти
         </Link>
         <Link
-          className={linkStyles}
+          className={linkStyles + " min-w-[4rem]"}
           href='/about'
         >
-          About
+          За нас
         </Link>
       </div>
       {/* LOGO */}

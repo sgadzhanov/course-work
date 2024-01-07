@@ -52,19 +52,26 @@ export default function Register() {
     if (!/(.+)@(.+){2,}\.(.+){2,}/.test(userCredentials.email)) {
       setValidationMessages(prev => ({
         ...prev,
-        emailValidation: 'Please enter valid email.'
+        emailValidation: 'Моля, въведете валиден имейл.'
       }))
       return
     }
 
     if (
       userCredentials.password.length < 5 ||
-      userCredentials.confirmPassword.length < 5 ||
-      userCredentials.password !== userCredentials.confirmPassword
+      userCredentials.confirmPassword.length < 5
     ) {
       setValidationMessages(prev => ({
         ...prev,
-        passwordValidation: 'Your passwords must match and must be at least 5 characters long.'
+        passwordValidation: 'Паролата трябва да бъде поне 5 символа.'
+      }))
+      return
+    }
+
+    if (userCredentials.password !== userCredentials.confirmPassword) {
+      setValidationMessages(prev => ({
+        ...prev,
+        passwordValidation: 'Паролите трябва да съвпадат.'
       }))
       return
     }
@@ -79,8 +86,13 @@ export default function Register() {
         },
         body: JSON.stringify(userCredentials)
       })
+      const data = await res.json()
       if (!res.ok) {
-        console.log('There was an error registering user')
+        setValidationMessages(prev => ({
+          ...prev,
+          emailValidation: data.message,
+        }))
+        return
       }
       setConfetti(true)
       setTimeout(() => {
@@ -102,12 +114,12 @@ export default function Register() {
       {confetti ? <Confetti width={window.innerWidth} height={window.innerHeight} /> : null}
       <div className="w-[85%] md:w-1/2 lg:w-[40%] xl:w-1/3 mt-10">
         <div className='bg-[#e9e9e9d9] p-4 rounded-lg'>
-          <h2 className="text-center text-2xl font-bold">Register</h2>
+          <h2 className="text-center text-2xl font-bold">Регистрация</h2>
           {/* <div className="bg-slate-200 p-4 rounded-lg opacity-80 my-4"> */}
-            <p className="p-6 font-semibold text-[1.15rem] ">🍔🥗 Create an account to enjoy a seamless culinary experience.📱🍕</p>
+          <p className="p-6 font-semibold text-[1.15rem] ">🍔🥗 Създайте акаунт и се насладете на своето кулинарно изживяване.📱🍕</p>
           {/* </div> */}
           <form onSubmit={submitHandler} className="flex flex-col">
-            <label className="font-semibold text-slate-800" htmlFor="email">Email</label>
+            <label className="font-semibold text-slate-800" htmlFor="email">Имейл</label>
             <input
               className={(inputFocus.email ? 'bg-fuchsia-50' : 'bg-[#f0ffffb0]') + ' ring-1 ring-orange-200 overflow-hidden outline-none py-[.75rem] px-2 rounded mb-4'}
               type="text"
@@ -118,7 +130,7 @@ export default function Register() {
               onFocus={(e) => focusHandler(e.target.name)}
               onBlur={(e) => blurHandler(e.target.name)}
             />
-            <label className="font-semibold text-slate-800" htmlFor="password">Password</label>
+            <label className="font-semibold text-slate-800" htmlFor="password">Парола</label>
             <input
               className={(inputFocus.password ? 'bg-fuchsia-50' : 'bg-[#f0ffffb0]') + ' ring-1 ring-orange-200 overflow-hidden outline-none py-[.75rem] px-2 rounded mb-4'}
               type="password"
@@ -129,7 +141,7 @@ export default function Register() {
               onFocus={(e) => focusHandler(e.target.name)}
               onBlur={(e) => blurHandler(e.target.name)}
             />
-            <label className="font-semibold text-slate-800" htmlFor="confirmPassword">Confirm Password</label>
+            <label className="font-semibold text-slate-800" htmlFor="confirmPassword">Потвърди парола</label>
             <input
               className={(inputFocus.confirmPassword ? 'bg-fuchsia-50' : 'bg-[#f0ffffb0]') + ' ring-1 ring-orange-200 overflow-hidden outline-none py-[.75rem] px-2 rounded mb-4'}
               type="password"
@@ -143,7 +155,7 @@ export default function Register() {
             {valdationMessages.emailValidation && <p className="mb-2 text-red-700 font-semibold">{valdationMessages.emailValidation}</p>}
             {valdationMessages.passwordValidation && <p className="mb-2 text-red-700 font-semibold">{valdationMessages.passwordValidation}</p>}
             <button disabled={confetti || isLoading} className="bg-[#e34444c7] p-[.75rem] rounded-md text-slate-50 opacity-100 font-semibold w-[80%] mx-auto transition-all hover:bg-[#ff1b1bc7] duration-300">
-              {isLoading ? 'Please wait...' : 'Submit'}
+              {isLoading ? 'Моля изчакайте' : 'Регистрация'}
             </button>
           </form>
         </div>

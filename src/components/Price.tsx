@@ -59,7 +59,7 @@ export default function Price({ product }: PriceProps) {
   return (
     <div className='flex flex-col gap-[.75rem] font-semibold'>
       <h2 className='text-2xl font-bold'>
-        ${Number(currentPrice).toFixed(2)}
+        {Number(currentPrice).toFixed(2)}  лв
       </h2>
       <div className="flex gap-4">
         {options && options.length > 0 && options?.map((o, index) => (

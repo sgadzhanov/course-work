@@ -117,7 +117,7 @@ export default function LoginPage() {
             />
 
             {serverValidations && <p className='text-red-600 font-semibold mb-2'>{serverValidations}</p>}
-            {clientValidations && <p className='text-red-600 font-semibold mb-2'>Please enter valid username and password.</p>}
+            {clientValidations && <p className='text-red-600 font-semibold mb-2'>Моля въведете валиден имейл и парола.</p>}
             <button className="bg-[#e34444c7] p-[.75rem] rounded-md text-slate-50 opacity-100 font-semibold w-[80%] mx-auto transition-all hover:bg-[#ff1b1bc7] duration-300" disabled={clientValidations}>{!isLoggingIn ? 'Login' : 'Please wait...'}</button>
           </form>
           <p className='text-sm pt-2 text-center font-semibold'>Don&apos;t have an account? <Link href='/register' className='text-blue-600 underline'>Signup</Link></p>

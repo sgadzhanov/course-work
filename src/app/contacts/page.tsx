@@ -52,7 +52,7 @@ export default function Contact() {
       })
       if (!res.ok) {
         setIsLoading(false)
-        alert('Something went wrong, please try again later')
+        alert('Възникна грешка, моля опитайте отново.')
         return
       }
       setFormData({
@@ -60,12 +60,12 @@ export default function Contact() {
         email: '',
         message: '',
       })
-      alert('Message sent successfully!')
+      alert('Успешно изпратихте вашето съобщение!')
       router.push('/')
       setIsLoading(false)
     } catch (e) {
       setIsLoading(false)
-      alert('Something went wrong, please try again later')
+      alert('Възникна грешка, моля опитайте отново.')
       console.log(e)
     }
   }
@@ -73,19 +73,19 @@ export default function Contact() {
   return (
     <div className="min-h-[calc(100vh-10rem)] flex items-center justify-center">
       <div className="bg-white p-8 shadow-md rounded-md w-2/3 md:w-1/2 xl:w-1/3">
-        <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
+        <h2 className="text-2xl font-bold mb-4">Свържи се с нас</h2>
 
         <form onSubmit={submitHandler} className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-600">
-              Your Name
+              Име
             </label>
             <input
               type="text"
               id="name"
               name="name"
               className={`mt-1 p-2 w-full border rounded-md ${validations.name ? 'border-2 border-red-500' : 'border'}`}
-              placeholder="Ivan Ivanov"
+              placeholder="Иван Иванов"
               onChange={e => {
                 changeHandler(e)
                 setValidations(prev => ({ ...prev, name: false }))
@@ -95,7 +95,7 @@ export default function Contact() {
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-600">
-              Your Email
+              Имейл
             </label>
             <input
               type="email"
@@ -112,14 +112,14 @@ export default function Contact() {
 
           <div>
             <label htmlFor="message" className="block text-sm font-medium text-gray-600">
-              Message
+              Съобщение
             </label>
             <textarea
               id="message"
               name="message"
               rows={4}
               className={`mt-1 p-2 w-full border rounded-md outline-none ${validations.message ? "border-2 border-red-500" : 'border'}`}
-              placeholder="Your message..."
+              placeholder="Вашето съобщение"
               onChange={(e) => {
                 changeHandler(e)
                 setValidations(prev => ({ ...prev, message: false }))
@@ -130,7 +130,7 @@ export default function Contact() {
             type="submit"
             className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition-all duration-300"
           >
-            {isLoading ? 'Sending...' : 'Send Message'}
+            {isLoading ? 'Изпраща се...' : 'Изпрати'}
           </button>
         </form>
       </div>

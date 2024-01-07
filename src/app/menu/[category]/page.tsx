@@ -36,7 +36,7 @@ export default async function CategoryPage({ params }: CategoryPageParams) {
           )}
           <h2 className="font-bold text-xl py-2">{item.title}</h2>
           <div className="flex items-center justify-between">
-            <h4 className="text-red-5000">${(+item.price).toFixed(2)}</h4>
+            <h4 className="text-red-5000">{(+item.price).toFixed(2)}</h4>
             <button className="bg-red-600 text-slate-100 p-2 rounded font-semibold uppercase">
               add to cart
             </button>

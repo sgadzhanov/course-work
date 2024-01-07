@@ -34,7 +34,7 @@ export default function CartPage() {
     return (
       <div style={backgroundImageStyle}>
         <section className="w-2/3 h-[20rem] md:w-3/4 rounded-lg bg-violet-100 opacity-90 px-4 mt-8 md:max-h-32 flex items-center justify-center">
-          <p className="font-bold text-xl text-stone-800">Your cart is empty. Explore our products and add items to your cart.</p>
+          <p className="font-bold text-xl text-stone-800">Вашата кошница е празна. Разгледайте нашите продукти и добавете артикули в кошницата си.</p>
         </section>
       </div>
     )
@@ -58,7 +58,7 @@ export default function CartPage() {
         body: JSON.stringify({
           price: totalPrice,
           products,
-          status: 'Not Paid!',
+          status: 'Изчаква се плащане',
           userEmail,
         })
       })
@@ -91,7 +91,7 @@ export default function CartPage() {
               <h1 className="uppercase text-xl font-bold">{p.title}</h1>
               <span className='text-right text-sm font-semibold'>{p.optionTitle}{' x' + p.quantity + ' '}</span>
             </div>
-            <h2 className="font-bold w-1/5">${p.price.toFixed(2)}</h2>
+            <h2 className="font-bold w-1/5">{p.price.toFixed(2)} лв</h2>
             <span
               className="cursor-pointer"
               onClick={() => removeFromCart(p)}
@@ -104,27 +104,23 @@ export default function CartPage() {
       {/* PAYMENT CONTAINER */}
       <div className="h-1/2 p-4 bg-fuchsia-50 flex flex-col gap-4 justify-center lg:w-1/3 lg:h-[calc(100vh)] lg:self-baseline 2xl:w-1/2">
         <div className="flex justify-between font-semibold">
-          <span>Subtotal ({totalItems} items)</span>
-          <span>${totalPrice.toFixed(2)}</span>
+          <span>Общо ({totalItems} продукт/и)</span>
+          <span>{totalPrice.toFixed(2)} лв</span>
         </div>
         <div className="flex justify-between font-semibold">
-          <span>Service Cost</span>
-          <span>$0.00</span>
-        </div>
-        <div className="flex justify-between font-semibold">
-          <span>Delivery Cost</span>
-          <span className="text-green-500">FREE!</span>
+          <span>Доставка</span>
+          <span className="text-green-500">Безплатно!</span>
         </div>
         <hr className="my-2" />
         <div className="flex justify-between">
-          <span className="uppercase">Total (Incl. Val)</span>
-          <span className="font-bold">${totalPrice.toFixed(2)}</span>
+          <span className="uppercase">Крайна цена</span>
+          <span className="font-bold">{totalPrice.toFixed(2)} лв</span>
         </div>
         <button
           className="bg-red-500 text-slate-100 p-3 rounded-md w-1/2 hover:bg-[#bf1f22] transition-all duration-600 self-end"
           onClick={onCheckout}
         >
-          {isLoading ? 'Please wait' : 'Checkout'}
+          {isLoading ? 'Моля изчакайте' : 'Завършване'}
         </button>
       </div>
     </div>

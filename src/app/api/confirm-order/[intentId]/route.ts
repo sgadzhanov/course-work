@@ -10,7 +10,7 @@ export async function PUT(
   try {
     const updateResult = await prisma.order.update({
       where: { intent_id: intentId },
-      data: { status: 'Being prepared...' }
+      data: { status: 'Приготвя се' }
     })
 
     return new NextResponse(

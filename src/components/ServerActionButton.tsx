@@ -10,7 +10,7 @@ export default function ServerActionButton() {
       disabled={pending}
       aria-disabled={pending}
     >
-      {pending ? 'Please wait' : 'Submit'}
+      {pending ? 'Моля, изчакайте' : 'Добави'}
     </button>
   )
 }

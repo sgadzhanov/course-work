@@ -33,7 +33,7 @@ export default function FeaturedProduct({
       <div className="flex-1 flex flex-col gap-2 items-center justify-center text-center pt-4">
         <h1 className="text-xl font-bold uppercase xl:text-2xl 2xl:text-3xl">{title}</h1>
         <p className="p-4 2xl:p-8 text-lg">{desc}</p>
-        <span className="text-xl font-bold">${(+price).toFixed(2)}</span>
+        <span className="text-xl font-bold">{(+price).toFixed(2)}</span>
         <Link href={`/menu/${category}/${id}`}>
           <button className="bg-red-500 text-white p-2 rounded-md">Add to Cart</button>
         </Link>

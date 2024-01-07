@@ -84,27 +84,27 @@ export default function Orders() {
         <table className="w-full opacity-90 border-separate">
           <thead>
             <tr className="p-[.3rem] text-left bg-orange-200">
-              <th className="p-[.3rem] hidden md:block">Order ID</th>
-              <th className="p-[.3rem]">Email</th>
-              <th className='p-[.3rem]'>Date</th>
-              <th className='p-[.3rem]'>Price</th>
-              <th className="p-[.3rem] hidden md:block">Products</th>
-              <th className='p-[.3rem]'>Status</th>
+              <th className="p-[.3rem] hidden md:block">Номер на поръчка</th>
+              <th className="p-[.3rem]">Имейл</th>
+              <th className='p-[.3rem]'>Дата</th>
+              <th className='p-[.3rem]'>Цена</th>
+              <th className="p-[.3rem] hidden md:block">Продукти</th>
+              <th className='p-[.3rem]'>Статус</th>
             </tr>
           </thead>
           <tbody>
             {data?.length > 0 && data?.map((order: Order) => (
               <tr
                 key={order.id}
-                className={`font-semibold text-sm md:text-base ${order.status.toLowerCase() === 'delivered' ? 'bg-green-100' : 'bg-fuchsia-50'}`}
+                className={`font-semibold text-sm md:text-base ${order.status.toLowerCase() === 'приключена' ? 'bg-green-100' : 'bg-fuchsia-50'}`}
               >
                 <td className="hidden md:block py-4 px-1">{order.id}</td>
                 <td className="py-4 px-1">{order.userEmail}</td>
                 <td className="py-4 px-1">{order.createdAt.toString().slice(0, 10)}</td>
-                <td className="py-4 px-1">${Number(order.price).toFixed(2)}</td>
+                <td className="py-4 px-1">{Number(order.price).toFixed(2)}</td>
                 <td className="hidden md:block py-4 px-1">{formatProducts(order.products)}</td>
                 {sessionData?.user.isAdmin ?
-                  <td>
+                  <td className='min-w-[19rem]'>
                     <form
                       className='flex items-center gap-2'
                       onSubmit={(e) => updateHandler(e, order.id)}
