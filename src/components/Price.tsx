@@ -87,7 +87,7 @@ export default function Price({ product }: PriceProps) {
       <div className='flex justify-between items-center'>
         {/* QUANTITY */}
         <div className='flex justify-between w-full p-[10px] ring-1 ring-red-500'>
-          <span>Quantity</span>
+          <span>Количество</span>
           <div className='flex gap-2'>
             <button
               onClick={() => setQuantity(prev => prev === 1 ? 1 : prev - 1)}
@@ -106,7 +106,7 @@ export default function Price({ product }: PriceProps) {
           className='uppercase w-56 bg-red-500 text-slate-100 p-[10px] ring-1 ring-orange-500'
           onClick={isAuthenticated ? onAddProduct : () => router.push('/login')}
         >
-          {!isAuthenticated ? 'Sign in' : 'Add to cart'}
+          {!isAuthenticated ? 'Sign in' : 'Добави'}
         </button>
       </div>
     </div>

@@ -25,7 +25,7 @@ export default function MenuItem({
         <h2 className={`uppercase font-bold text-3xl text-${color}`}>{title}</h2>
         <p className={`text-sm text-${color} my-8`}>{desc}</p>
         <button className="hidden 2xl:block bg-yellow-400 text-slate-800 rounded py-1 font-semibold w-4/5">
-          Explore
+          Разгледай
         </button>
       </div>
     </Link>

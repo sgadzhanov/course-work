@@ -77,7 +77,7 @@ export default function Orders() {
       {data.length === 0 ? (
         <section>
           <div className='mt-6 p-6 rounded-xl opacity-90 bg-fuchsia-100 max-h-24 items-center flex justify-center'>
-            <p className='font-bold text-slate-700'>We&apos;re ready to bring you delicious food. Place your order now!</p>
+            <p className='font-bold text-slate-700'>Готови сме да ви доставим изключително вкусна храна. Само поръчай!</p>
           </div>
         </section>
       ) : (
