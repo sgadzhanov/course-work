@@ -176,7 +176,7 @@ export default function Rating({ item }: RatingProps) {
             </>
           ) : (
             <form onSubmit={onSubmitYourRating} className='flex flex-col gap-6'>
-              <h2 className='text-slate-700 text-lg font-semibold text-center'>Share Your Review</h2>
+              <h2 className='text-slate-700 text-lg font-semibold text-center'>Споделете своята оценка!</h2>
               {error && <p className='text-red-500 font-semibold text-sm mb-[-1rem]'>* {error}</p>}
               <select
                 value={yourReview.review}
@@ -186,17 +186,17 @@ export default function Rating({ item }: RatingProps) {
                 }}
                 className={`${!yourReview.review ? 'text-slate-500' : 'text-slate-900'} border-2 border-zinc-400 rounded-md p-2 outline-none overflow-hidden`}
               >
-                {!yourReview.review && <option value="" disabled>Select your rating!</option>}
-                <option className='text-slate-800' value="1">1 - Terrible</option>
-                <option className='text-slate-800' value="2">2 - Below Average</option>
-                <option className='text-slate-800' value="3">3 - Average</option>
-                <option className='text-slate-800' value="4">4 - Very Good</option>
-                <option className='text-slate-800' value="5">5 - Excellent</option>
+                {!yourReview.review && <option value="" disabled>Изберете оценка!</option>}
+                <option className='text-slate-800' value="1">1 - Ужасно</option>
+                <option className='text-slate-800' value="2">2 - По-скоро не</option>
+                <option className='text-slate-800' value="3">3 - Става..</option>
+                <option className='text-slate-800' value="4">4 - Много добро</option>
+                <option className='text-slate-800' value="5">5 - Отлично</option>
               </select>
               <div className='flex flex-col'>
-                <label htmlFor='comment' className='font-semibold text-slate-700'>Leave your comment</label>
+                <label htmlFor='comment' className='font-semibold text-slate-700'>Оставете своя коментар</label>
                 <textarea
-                  placeholder='You can leave your comment here.'
+                  placeholder='Тук може да напишете своя коментар.'
                   name='comment'
                   id='comment'
                   className='p-2 border-2 overflow-hidden outline-none border-zinc-400 rounded'
@@ -208,7 +208,7 @@ export default function Rating({ item }: RatingProps) {
                 className={`${error ? 'cursor-not-allowed' : 'cur'} w-2/3 lg:w-1/2 mx-auto bg-zinc-500 py-[.7rem] rounded text-slate-50 font-semibold transition-all hover:bg-zinc-600 duration-500`}
                 disabled={error ? true : false}
               >
-                {!isLoading ? 'Send' : 'Sending...'}
+                {!isLoading ? 'Изпрати' : 'Изпраща се...'}
               </button>
             </form>
           )}

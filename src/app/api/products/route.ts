@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json()
   const productCategory = await prisma.category.findFirst({
     where: {
-      title: {
+      slug: {
         contains: body.category,
         mode: 'insensitive',
       }
