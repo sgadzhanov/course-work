@@ -71,7 +71,6 @@ export default function Orders() {
     return products.map(p => p.title).join(', ')
   }
 
-  console.log({ data })
   return (
     <section style={backgroundImageStyle} className="p-4 h-[calc(100vh-11.5rem)] lg:px-20 xl:px-40">
       {data.length === 0 ? (

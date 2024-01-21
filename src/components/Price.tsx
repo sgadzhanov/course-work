@@ -18,7 +18,7 @@ export default function Price({ product }: PriceProps) {
   const router = useRouter()
 
   const [quantity, setQuantity] = useState(1)
-  const [size, setSize] = useState('small')
+  const [size, setSize] = useState('малка')
   const [currentPrice, setCurrentPrice] = useState(price)
 
   const isAuthenticated = status === 'authenticated' || userEmail
@@ -30,7 +30,7 @@ export default function Price({ product }: PriceProps) {
 
   useEffect(() => {
     let additionalPrice = 0
-    if (size !== 'small') {
+    if (size !== 'малка') {
       additionalPrice = options?.find(o => o.title === size)?.additionalPrice ?? 0
     }
     const totalPrice = (+price + +additionalPrice) * quantity
@@ -39,7 +39,7 @@ export default function Price({ product }: PriceProps) {
 
   const onAddProduct = () => {
     if (!isAuthenticated) {
-      alert('Please log in.')
+      alert('Моля, влезте в профила си.')
       return
     }
     const productToAdd: CartItem = {
@@ -53,7 +53,7 @@ export default function Price({ product }: PriceProps) {
       title: product.title,
     }
     addToCart(productToAdd)
-    toast.success(`Successfully added ${product.title} to your cart!`, { position: toast.POSITION.BOTTOM_LEFT })
+    toast.success(`Успешно добавихте ${product.title} във вашата кошница!`, { position: toast.POSITION.BOTTOM_LEFT })
   }
 
   return (
@@ -67,12 +67,12 @@ export default function Price({ product }: PriceProps) {
             key={o.title}
             className='p-2 ring-1 ring-red-400 rounded-md min-w-[5rem] font-semibold'
             onClick={() => {
-              if (o.title.toLowerCase() === 'medium') {
-                setSize('medium')
-              } else if (o.title.toLowerCase() === 'large') {
-                setSize('large')
+              if (o.title.toLowerCase() === 'средна') {
+                setSize('средна')
+              } else if (o.title.toLowerCase() === 'голяма') {
+                setSize('голяма')
               } else {
-                setSize('small')
+                setSize('малка')
               }
             }}
             style={{
@@ -106,7 +106,7 @@ export default function Price({ product }: PriceProps) {
           className='uppercase w-56 bg-red-500 text-slate-100 p-[10px] ring-1 ring-orange-500'
           onClick={isAuthenticated ? onAddProduct : () => router.push('/login')}
         >
-          {!isAuthenticated ? 'Sign in' : 'Добави'}
+          {!isAuthenticated ? 'Вход' : 'Добави'}
         </button>
       </div>
     </div>

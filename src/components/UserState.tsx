@@ -25,12 +25,10 @@ export default function UserState() {
           <Link className={linkStyles} href='/orders'>История</Link>
           <span
             className='ml-4 cursor-pointer hover:text-amber-500 transition-all duration-400 md:font-semibold'
-            onClick={() => {
-              if (status === 'authenticated') {
-                signOut()
-              }
-              logout()
-            }}
+            onClick={() => status === 'authenticated'
+              ? signOut({ callbackUrl: '/ ' })
+              : onLogout()
+            }
           >
             Изход
           </span>

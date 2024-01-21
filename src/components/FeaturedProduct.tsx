@@ -19,7 +19,7 @@ export default function FeaturedProduct({
   category,
 }: FeaturedProductProps) {
   return (
-    <div className="w-screen h-[60vh] flex flex-col items-center justify-around p-4 hover:bg-fuchsia-50 transition-all duration-500 md:w-[50vw] xl:w-[33vw] xl:h-[90vh]">
+    <div className="w-screen h-[60vh] flex flex-col items-center justify-evenly p-4 hover:bg-fuchsia-50 transition-all duration-500 md:w-[50vw] xl:w-[33vw] xl:h-[70vh]">
       {img && (
         <div className="relative flex-1 w-full">
           <Image
@@ -32,12 +32,11 @@ export default function FeaturedProduct({
       )}
       <div className="flex-1 flex flex-col gap-2 items-center justify-center text-center pt-4">
         <h1 className="text-xl font-bold uppercase xl:text-2xl 2xl:text-3xl">{title}</h1>
-        <p className="p-4 2xl:p-8 text-lg">{desc}</p>
         <span className="text-xl font-bold">{(+price).toFixed(2)}</span>
-        <Link href={`/menu/${category}/${id}`}>
-          <button className="bg-red-500 text-white p-2 rounded-md">Add to Cart</button>
-        </Link>
       </div>
+        <Link href={`/menu/${category}/${id}`}>
+          <button className="bg-red-500 text-white p-2 rounded-md">Добави</button>
+        </Link>
     </div>
   )
 }

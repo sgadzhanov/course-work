@@ -7,11 +7,20 @@ export async function GET(req: NextRequest) {
   const cat = searchParams.get('cat')
 
   try {
-    const products = await prisma.product.findMany({
-      where: {
-        ...(cat ? { catSlug: cat } : { isFeatured: true })
-      }
-    })
+    let products = []
+    if (cat) {
+      products = await prisma.product.findMany({
+        where: {
+          catSlug: cat,
+        },
+      })
+    } else {
+      products = await prisma.product.findMany({
+        where: {
+          isFeatured: true,
+        },
+      })
+    }
 
     return new NextResponse(JSON.stringify(products), { status: 200 })
   } catch (e) {

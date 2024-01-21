@@ -84,9 +84,9 @@ export default function LoginPage() {
       <div className="w-[85%] md:w-1/2 lg:w-[40%] xl:w-1/3 mt-10">
         <div className='bg-[#e9e9e9d9] p-4 rounded-lg'>
           <form onSubmit={submitHandler} className='flex flex-col'>
-            <h2 className='font-bold text-2xl text-slate-800 text-center pb-4'>Login</h2>
+            <h2 className='font-bold text-2xl text-slate-800 text-center pb-4'>Вход</h2>
 
-            <label className='font-semibold text-slate-800' htmlFor="username">Email</label>
+            <label className='font-semibold text-slate-800' htmlFor="username">Имейл</label>
             <input
               className='ring-1 ring-orange-200 overflow-hidden outline-none py-[.75rem] px-2 rounded bg-[#f0ffffb0] mb-2'
               type="text"
@@ -101,7 +101,7 @@ export default function LoginPage() {
               }}
             />
 
-            <label className='font-semibold text-slate-800' htmlFor="username">Password</label>
+            <label className='font-semibold text-slate-800' htmlFor="username">Парола</label>
             <input
               className='ring-1 ring-orange-200 overflow-hidden outline-none py-[.75rem] px-2 rounded mb-2 bg-[#f0ffffb0]'
               type="password"
@@ -118,12 +118,12 @@ export default function LoginPage() {
 
             {serverValidations && <p className='text-red-600 font-semibold mb-2'>{serverValidations}</p>}
             {clientValidations && <p className='text-red-600 font-semibold mb-2'>Моля въведете валиден имейл и парола.</p>}
-            <button className="bg-[#e34444c7] p-[.75rem] rounded-md text-slate-50 opacity-100 font-semibold w-[80%] mx-auto transition-all hover:bg-[#ff1b1bc7] duration-300" disabled={clientValidations}>{!isLoggingIn ? 'Login' : 'Please wait...'}</button>
+            <button className="bg-[#e34444c7] p-[.75rem] rounded-md text-slate-50 opacity-100 font-semibold w-[80%] mx-auto transition-all hover:bg-[#ff1b1bc7] duration-300" disabled={clientValidations}>{!isLoggingIn ? 'Вход' : 'Моля, изчакайте'}</button>
           </form>
-          <p className='text-sm pt-2 text-center font-semibold'>Don&apos;t have an account? <Link href='/register' className='text-blue-600 underline'>Signup</Link></p>
+          <p className='text-sm pt-2 text-center font-semibold'>Все още не сте регистрирани? <Link href='/register' className='text-blue-600 underline'>Регистрация</Link></p>
           <div className="flex items-center justify-center my-4">
             <div className='relative h-[1px] w-full bg-[#b87575]' />
-            <div className='text-center font-bold text-slate-800 mx-4'>OR</div>
+            <div className='text-center font-bold text-slate-800 mx-4'>Или</div>
             <div className='relative h-[1px] w-full bg-[#b87575]' />
           </div>
           <button
@@ -137,7 +137,8 @@ export default function LoginPage() {
               height={20}
               className="object-contain"
             />
-            <span className='font-semibold text-slate-800'>Sign in with Google</span>
+            
+            <span className='font-semibold text-slate-800'>Вход с Google</span>
           </button>
         </div>
       </div>

@@ -11,7 +11,7 @@ export default function Offer() {
         <h1 className="text-4xl text-slate-50 font-extrabold xl:text-6xl">Вкусен сочен бургер с хрупкави картофки</h1>
         <p className="text-slate-50 lg:text-xl">Насладете се на вкуса на сочен бургер, приготвен от специално подбрано месо, заедно с гарнитура от хрупкави домашни пържени картофки.</p>
         <Countdown />
-        <Link href='/menu/burgers/clr9emw1c0003tvd4a92a8x6u'>
+        <Link href='/menu/burgers/clr9gs8wk000ctv4gsdrs9po7'>
           <button
             className="bg-red-500 py-2 px-4 rounded text-slate-50 lg:py-[12px] lg:px-[1.25rem] md:text-lg"
           >

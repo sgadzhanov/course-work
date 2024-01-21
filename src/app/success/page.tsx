@@ -48,14 +48,14 @@ export default function SuccessPage() {
   return (
     <>
       {error ? (
-        <div className="min-h-[calc(100vh-6rem)] md:min-h-[calc(100vh-15rem)] flex items-center justify-center text-center text-2xl text-red-600">
+        <div className="min-h-[calc(100vh-6rem)] md:min-h-[calc(100vh-11.5rem)] flex items-center justify-center text-center text-2xl text-red-600">
           There was an error processing your payment. Please try again later.
         </div>
       ) : (
-        <div className="min-h-[calc(100vh-6rem)] md:min-h-[calc(100vh-15rem)] flex items-center justify-center text-center text-2xl text-green-700">
+        <div className="min-h-[calc(100vh-6rem)] md:min-h-[calc(100vh-11.5rem)] flex items-center justify-center text-center text-2xl text-green-700">
           <p className="max-w-[600px]">
-            Payment successful. You are being redirected to the orders page.
-            Please do not close the page.
+            Плащането е успешно! Ще бъдете препратени към страницата с история на поръчките!
+            Моля, не затваряйте страницата!
           </p>
           <ReactConfetti width={window.innerWidth} height={window.innerHeight} />
         </div>

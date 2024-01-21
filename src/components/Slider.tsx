@@ -25,9 +25,9 @@ export default function Slider() {
         </h1>
         <button
           onClick={() => router.push(isPizza(data[currentSlide].title) ? '/menu/pizzas' : '/menu')}
-          className='bg-red-500 text-white py-4 px-8'
+          className='bg-red-500 text-white py-4 px-8 mb-2'
         >
-          {isPizza(data[currentSlide].title) ? 'Order your pizza!' : 'Order now!'}
+          Поръчай сега!
         </button>
       </div>
       {/* IMAGE CONTAINER */}
@@ -53,7 +53,7 @@ export default function Slider() {
   )
 }
 const data = [
-  { id: 1, title: 'always fresh & crispy!', image: '/slide1.png' },
-  { id: 2, title: 'we deliver your order wherever you are in sofia!', image: '/slide2.png' },
-  { id: 3, title: 'the best pizza to share with your family!', image: '/slide3.jpg' },
+  { id: 1, title: 'Винаги свежа и прясна храна!', image: '/slide1.png' },
+  { id: 2, title: 'Можем да доставим навсякъде в София, където и да сте!', image: '/slide2.png' },
+  { id: 3, title: 'Най-вкусната пица за споделяне със семейството!', image: '/slide3.jpg' },
 ]
